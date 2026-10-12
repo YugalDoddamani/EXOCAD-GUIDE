@@ -511,6 +511,8 @@
  <section class="tool-section" id="trim-scan">
  <h2><span class="step-badge">1</span> Trim Scan <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Remove unnecessary scan data before beginning the design. The input scan should only include the mesh under the partial framework plus any involved teeth.</p>
+  <p class="use-this"><strong>Use this when:</strong> Trim Scan is the right first step when the scan contains a base, stray geometry, or areas you know will not be part of the design.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If the trim clips a tooth or model area you need, undo before continuing and reposition the cut.</p>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Trim Scan"><table class="param-table">
  <thead><tr><th>Control</th><th>Description</th></tr></thead>
  <tbody>
@@ -533,6 +535,8 @@
  <section class="tool-section" id="survey">
  <h2><span class="step-badge">2</span> Survey / Blockout Model <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Specify the insertion direction of the partial relative to the scan data. The software displays undercut colors so you can evaluate and adjust the path of insertion.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Survey when you need to choose or review the path of insertion and understand where undercuts fall relative to that direction.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If the undercut colours look surprising, check the viewing angle and insertion direction before editing blockout wax.</p>
  <h3>Setting the Insertion Path</h3>
  <ul>
  <li><strong>Left-click</strong>: on the scan. The insertion arrow changes from white to red and the cursor becomes a 4-arrow cross.</li>
@@ -559,6 +563,8 @@
  <section class="tool-section" id="edit-blockout">
  <h2><span class="step-badge">3</span> Edit Blockout <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">K</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Expose undercuts in the blockout wax to define where retention elements (clasps) will go. The cursor is a ball-brush that you adjust with <kbd>Q</kbd>/<kbd>W</kbd>.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Edit Blockout to remove or reshape blockout wax after the path of insertion has been chosen.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If you expose an area that should remain blocked out, undo the stroke and work with a smaller brush. Recheck the intended clasp undercut.</p>
  <h3>Smudge (Remove Blockout)</h3>
  <ul>
  <li><strong>Left-click</strong>: on blockout wax to remove it, exposing undercut color depth from Survey.</li>
@@ -798,6 +804,8 @@
  <section class="tool-section" id="clone">
  <h2><span class="step-badge">8</span> Clone (Fill in Wax) <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">C</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Apply rest seats, distal guide planes, and add material around the mesh to receive finish lines. The Clone tool adds a fixed thickness of wax.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Clone when you need to add wax of a controlled thickness, build up a local area, or remove a fixed thickness with the Shift modifier.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If the result is too heavy or cuts into the wrong area, undo immediately and check the modifier and brush size before trying again.</p>
  <h3>Mouse Operations</h3>
  <ul>
  <li><strong>Left-click &amp; drag</strong>: add Clone wax.</li>
@@ -854,6 +862,8 @@
  <section class="tool-section" id="apply-clasps">
  <h2><span class="step-badge">10</span> Apply Clasps <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">G</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Sequentially apply clasps and minor connectors to open curves.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Apply Clasps when the framework design calls for clasp components on open curves and their placement has already been planned.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If the clasp does not sit as expected, review the curve and survey direction first rather than forcing the clasp into place.</p>
  <h3>Clasp Types</h3>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Apply Clasps"><table class="param-table">
  <thead><tr><th>Type</th><th>Use Case</th><th>How to Draw</th></tr></thead>
@@ -906,6 +916,8 @@
  <section class="tool-section" id="smooth">
  <h2>Smooth <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">V</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>General-purpose smoothing and wax editing tool with two modes.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Smooth for local surface cleanup. Choose the mode that matches the job: smooth a rough surface or reshape/remove wax in a targeted area.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If an edge becomes rounded or a thin area changes unexpectedly, undo and use a smaller brush with shorter strokes.</p>
  <h3>Edit Wax: Smudge Mode</h3>
  <ul>
  <li><strong>Smooth / Smudge toggle</strong>: switch between smoothing and removing wax.</li>
@@ -997,6 +1009,8 @@
  <section class="tool-section" id="select-wax">
  <h2>Select Wax <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">S</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Define an area of blockout or partial wax, and optionally convert between the two types.</p>
+  <p class="use-this"><strong>Use this when:</strong> Use Select Wax when you need to isolate a defined patch of blockout or partial wax, or use Cut Selection for a clean, bounded removal.</p>
+  <p class="common-mistake"><strong>Common mistakes / if it goes wrong:</strong> If the selection catches the wrong surface, cancel or undo and inspect the selection boundary from another angle before cutting.</p>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Select Wax"><table class="param-table">
  <thead><tr><th>Control</th><th>Description</th></tr></thead>
  <tbody>
