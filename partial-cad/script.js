@@ -5,26 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuButton = document.querySelector('.hamburger');
   const overlay = document.querySelector('.overlay');
   const searchInput = document.querySelector('.search-input');
+  const toolSearch = document.querySelector('#tool-search');
   const searchStatus = document.querySelector('.search-status');
   const backToTop = document.querySelector('.back-to-top');
   const printButton = document.querySelector('.print-btn');
   const navGroups = [...document.querySelectorAll('.nav-section')];
   const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
-  const sections = [...document.querySelectorAll('.hero[id], .tool-section[id]')];
+  const sections = [...document.querySelectorAll('.help-home[id], .hero[id], .tool-section[id]')];
   const mobileNavigation = window.matchMedia('(max-width: 920px)');
 
   const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
   const normalizeText = (value) => value.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
-  const searchIndex = navLinks.map((link) => {
-    const target = sectionForLink(link);
-    return {
-      link,
-      group: link.closest('.nav-section'),
-      text: normalizeText(`${link.textContent} ${target?.textContent ?? ''}`),
-    };
-  });
-
-  let collapsedBeforeSearch = null;
   let activeLinkFrame = null;
 
   // ---------- MOBILE NAVIGATION ----------
@@ -43,9 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     menuButton.setAttribute('aria-label', open ? 'Close tool navigation' : 'Open tool navigation');
     overlay?.classList.toggle('open', open);
 
-    if (open) {
-      searchInput?.focus({ preventScroll: true });
-    } else if (returnFocus) {
+    if (!open && returnFocus) {
       menuButton.focus();
     }
   };
@@ -83,41 +72,132 @@ document.addEventListener('DOMContentLoaded', () => {
   mobileNavigation.addEventListener('change', syncNavigationForViewport);
   syncNavigationForViewport();
 
-  // ---------- SEARCH ALL GUIDE CONTENT ----------
-  const applySearch = () => {
-    if (!sidebar || !searchInput) return;
+  // ---------- SHARED SEARCH: SIDEBAR + MAIN FINDER ----------
+  const mainToolSearch = document.querySelector('#tool-search');
+  const toolCards = [...document.querySelectorAll('.tool-card')];
+  const filterButtons = [...document.querySelectorAll('.filter-chip')];
+  const taskButtons = [...document.querySelectorAll('.task-shortcut')];
+  const toolCount = document.querySelector('#tool-count');
+  const toolStatus = document.querySelector('#tool-search-status');
+  const toolEmpty = document.querySelector('#tool-empty');
+  const waxRescue = document.querySelector('#wax-removal-rescue');
+  const clearToolSearch = document.querySelector('#clear-tool-search');
+  let activeFilter = 'all';
+  let collapsedBeforeSearch = null;
+  let activeLinkFrame = null;
 
-    const query = normalizeText(searchInput.value);
-    const terms = query ? query.split(' ') : [];
-    const matchingItems = searchIndex.filter(({ text }) => terms.every((term) => text.includes(term)));
-    const matchedLinks = new Set(matchingItems.map(({ link }) => link));
+  const normalizeText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\\s-]/g, ' ').replace(/\\s+/g, ' ').trim();
+  const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
+  const navSearchIndex = navLinks.map((link) => {
+    const target = sectionForLink(link);
+    return { link, group: link.closest('.nav-section'), text: normalizeText(`${link.textContent} ${target?.textContent ?? ''}`) };
+  });
 
-    if (query && collapsedBeforeSearch === null) {
-      collapsedBeforeSearch = new Set(
-        navGroups.filter((group) => group.classList.contains('collapsed')),
-      );
+  const aliases = [
+    { terms: ['remove wax','removing wax','cut off wax','cut wax','wax removal','take off wax','shave wax'], extra: ['select wax','cut selection','clone','shift','smudge'] },
+    { terms: ['bumpy','bumps','lumpy','uneven','rough'], extra: ['smooth','smooth area','smudge'] },
+    { terms: ['palate','palatal','roof of mouth'], extra: ['mesh connector','major connector'] },
+    { terms: ['porosity','porous','holes','voids','pits'], extra: ['mesh','filler','paint filler'] },
+    { terms: ['too thick','too thin','thin wall','thickness'], extra: ['measure wax','measure thickness'] },
+    { terms: ['insertion path','path of insertion','wrong path','tilt'], extra: ['survey blockout'] },
+    { terms: ['logo','text marking','label'], extra: ['emboss image'] },
+  ];
+
+  const queryExpansion = (query) => {
+    const normalized = normalizeText(query);
+    const extra = aliases.filter((entry) => entry.terms.some((phrase) => normalized.includes(phrase))).flatMap((entry) => entry.extra);
+    return [...new Set(extra.map(normalizeText))];
+  };
+
+  const getSectionForCard = (card) => {
+    const href = card.getAttribute('href') || '';
+    return href.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+  };
+
+  const getCardFields = (card) => {
+    const section = getSectionForCard(card);
+    const title = normalizeText(card.querySelector('b')?.textContent || '');
+    const aliasesText = normalizeText(card.dataset.search || '');
+    const summary = normalizeText(card.querySelector('p')?.textContent || '');
+    const body = normalizeText(section?.textContent || '');
+    return { title, aliasesText, summary, body };
+  };
+
+  const getScore = (card, query, expanded) => {
+    if (!query) return { score: 0, reason: '' };
+    const fields = getCardFields(card);
+    const phrases = [query, ...expanded];
+    let score = 0;
+    let reason = '';
+    if (fields.title === query) { score += 140; reason = 'Exact tool name'; }
+    else if (fields.title.includes(query)) { score += 100; reason = 'Tool name'; }
+    if (phrases.some((phrase) => fields.aliasesText.includes(phrase))) {
+      score += 65;
+      if (!reason) reason = 'Related task or synonym';
     }
+    const terms = query.split(' ').filter(Boolean);
+    const titleMatches = terms.filter((term) => fields.title.includes(term)).length;
+    score += titleMatches * 24;
+    const aliasMatches = terms.filter((term) => fields.aliasesText.includes(term)).length;
+    score += aliasMatches * 9;
+    const summaryMatches = terms.filter((term) => fields.summary.includes(term)).length;
+    score += summaryMatches * 7;
+    const bodyMatches = terms.filter((term) => fields.body.includes(term)).length;
+    score += bodyMatches * 2;
+    const expandedMatches = expanded.reduce((total, phrase) => total + (fields.title.includes(phrase) ? 22 : fields.aliasesText.includes(phrase) ? 14 : fields.summary.includes(phrase) ? 6 : 0), 0);
+    score += expandedMatches;
+    if (!reason) reason = aliasMatches ? 'Related task wording' : summaryMatches ? 'Tool summary' : 'Instructions';
+    // The explicit wax-removal path is deliberately ordered by the safest, most targeted first step.
+    if (/remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query)) {
+      const preferred = { 'Select Wax': 500, 'Clone (Fill Wax)': 400, 'Smooth': 300 };
+      score += preferred[card.querySelector('b')?.textContent.trim()] || 0;
+    }
+    return { score, reason };
+  };
 
-    searchIndex.forEach(({ link }) => {
-      link.hidden = Boolean(query) && !matchedLinks.has(link);
-    });
+  const syncQueryToUrl = (query) => {
+    const url = new URL(window.location.href);
+    if (query) url.searchParams.set('q', query);
+    else url.searchParams.delete('q');
+    window.history.replaceState({}, '', url.pathname + url.search + url.hash);
+  };
 
+  const showMatchSnippet = (card, reason, query) => {
+    let snippet = card.querySelector('.tool-match-snippet');
+    if (!snippet) {
+      snippet = document.createElement('span');
+      snippet.className = 'tool-match-snippet';
+      snippet.setAttribute('aria-live', 'polite');
+      const summary = card.querySelector('p');
+      if (summary) summary.insertAdjacentElement('afterend', snippet);
+      else card.append(snippet);
+    }
+    if (query) {
+      const text = card.querySelector('p')?.textContent.trim() || '';
+      snippet.textContent = reason + (text ? ': ' + text : '');
+      snippet.hidden = false;
+    } else {
+      snippet.hidden = true;
+    }
+  };
+
+  const syncSidebarSearch = (query) => {
+    const terms = normalizeText(query).split(' ').filter(Boolean);
+    const matchingItems = navSearchIndex.filter(({ text }) => terms.every((term) => text.includes(term)));
+    const matchedLinks = new Set(matchingItems.map(({ link }) => link));
+    if (query && collapsedBeforeSearch === null) {
+      collapsedBeforeSearch = new Set(navGroups.filter((group) => group.classList.contains('collapsed')));
+    }
+    navSearchIndex.forEach(({ link }) => { link.hidden = Boolean(query) && !matchedLinks.has(link); });
     navGroups.forEach((group) => {
       const hasMatch = [...group.querySelectorAll('.nav-links a')].some((link) => !link.hidden);
       group.hidden = Boolean(query) && !hasMatch;
-
       if (query && hasMatch) {
         group.classList.remove('collapsed');
         group.querySelector('.nav-section-title')?.setAttribute('aria-expanded', 'true');
       }
     });
-
-    if (query) {
-      const resultCount = matchingItems.length;
-      searchStatus.textContent = resultCount
-        ? `${resultCount} matching ${resultCount === 1 ? 'section' : 'sections'} for “${searchInput.value.trim()}”.`
-        : `No sections match “${searchInput.value.trim()}”. Try a tool name or parameter.`;
-    } else {
+    if (!query) {
       if (collapsedBeforeSearch) {
         navGroups.forEach((group) => {
           const shouldCollapse = collapsedBeforeSearch.has(group);
@@ -126,23 +206,116 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         collapsedBeforeSearch = null;
       }
-
       navGroups.forEach((group) => { group.hidden = false; });
-      searchIndex.forEach(({ link }) => { link.hidden = false; });
-      searchStatus.textContent = 'Search across tool names, settings, and instructions.';
+      navSearchIndex.forEach(({ link }) => { link.hidden = false; });
     }
+    if (searchStatus) searchStatus.textContent = query
+      ? (matchingItems.length ? `${matchingItems.length} navigation sections match “${query}”. Main results are ranked by relevance.` : `No navigation links match “${query}”; check the ranked results.`)
+      : 'Search across tool names, settings, and instructions.';
   };
 
-  searchInput?.addEventListener('input', applySearch);
+  const filterToolCards = (updateUrl = true) => {
+    const rawQuery = toolSearch?.value ?? searchInput?.value ?? '';
+    const query = normalizeText(rawQuery);
+    const expanded = queryExpansion(rawQuery);
+    const scored = toolCards.map((card, index) => ({ card, index, ...getScore(card, query, expanded) }));
+    const visible = scored.filter(({ card }) => {
+      const stageMatch = activeFilter === 'all' || card.dataset.stage === activeFilter;
+      return stageMatch && (!query || getScore(card, query, expanded).score > 0);
+    }).sort((a, b) => (b.score - a.score) || (a.index - b.index));
+    const visibleSet = new Set(visible.map((item) => item.card));
+    visible.forEach(({ card, reason }) => {
+      card.hidden = false;
+      showMatchSnippet(card, reason, query);
+      const grid = card.parentElement;
+      if (grid) grid.appendChild(card);
+    });
+    toolCards.forEach((card) => {
+      if (!visibleSet.has(card)) card.hidden = true;
+      if (!query) showMatchSnippet(card, '', '');
+    });
+    if (toolCount) toolCount.textContent = query || activeFilter !== 'all'
+      ? `${visible.length} ${visible.length === 1 ? 'match' : 'matches'}`
+      : `${toolCards.length} guide entries`;
+    if (toolStatus) {
+      toolStatus.textContent = query
+        ? (visible.length ? `${visible.length} ranked results for “${rawQuery.trim()}”. Each card shows why it matched.` : `No direct matches for “${rawQuery.trim()}”. Try a related phrase below or browse the glossary.`)
+        : activeFilter === 'all'
+          ? 'Search by the problem you see, the tool name, a setting, or a shortcut.'
+          : `Showing entries in ${filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this category'}.`;
+    }
+    if (toolEmpty) {
+      toolEmpty.hidden = visible.length !== 0;
+      const suggestion = toolEmpty.querySelector('p');
+      if (suggestion && query) {
+        const close = aliases.find((entry) => entry.terms.some((phrase) => query.includes(phrase) || phrase.includes(query)));
+        suggestion.textContent = close
+          ? `Try these related terms: ${close.extra.join(', ')}. Or search the glossary below.`
+          : 'Try a broader term such as wax, rough, undercut, connector, thickness, or one of the glossary terms.';
+      }
+    }
+    if (waxRescue) {
+      const waxQuery = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
+      waxRescue.hidden = !waxQuery;
+    }
+    if (updateUrl) syncQueryToUrl(rawQuery.trim());
+  };
 
-  searchInput?.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && searchInput.value) {
-      searchInput.value = '';
-      applySearch();
+  const runSharedSearch = (source, value) => {
+    if (mainToolSearch && source !== mainToolSearch) mainToolSearch.value = value;
+    if (searchInput && source !== searchInput) searchInput.value = value;
+    filterToolCards();
+    syncSidebarSearch(value.trim());
+  };
+
+  searchInput?.addEventListener('input', () => runSharedSearch(searchInput, searchInput.value));
+  mainToolSearch?.addEventListener('input', () => runSharedSearch(mainToolSearch, mainToolSearch.value));
+
+  [searchInput, mainToolSearch].filter(Boolean).forEach((input) => input.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && input.value) {
+      runSharedSearch(input, '');
+      input.focus();
+    }
+  }));
+
+  filterButtons.forEach((button) => button.addEventListener('click', () => {
+    activeFilter = button.dataset.filter;
+    filterButtons.forEach((chip) => {
+      const selected = chip.dataset.filter === activeFilter;
+      chip.classList.toggle('is-active', selected);
+      chip.setAttribute('aria-pressed', String(selected));
+    });
+    filterToolCards();
+  }));
+
+  taskButtons.forEach((button) => button.addEventListener('click', () => {
+    const query = button.dataset.query || button.textContent.trim();
+    runSharedSearch(mainToolSearch, query);
+    mainToolSearch?.focus();
+    document.querySelector('#tool-explorer')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }));
+
+  clearToolSearch?.addEventListener('click', () => {
+    runSharedSearch(mainToolSearch, '');
+    mainToolSearch?.focus();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey &&
+        !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) {
+      event.preventDefault();
+      mainToolSearch?.focus();
+      document.querySelector('#tool-explorer')?.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
   });
 
-  // ---------- COLLAPSIBLE NAV GROUPS ----------
+  // Restore a shared search from ?q=... when the page opens.
+  const initialQuery = new URLSearchParams(window.location.search).get('q') || '';
+  if (mainToolSearch) mainToolSearch.value = initialQuery;
+  if (searchInput) searchInput.value = initialQuery;
+  syncSidebarSearch(initialQuery);
+  filterToolCards(false);
+    // ---------- COLLAPSIBLE NAV GROUPS ----------
   document.querySelectorAll('.nav-section-title').forEach((button) => {
     button.addEventListener('click', () => {
       const group = button.closest('.nav-section');
@@ -153,7 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- IN-PAGE NAVIGATION + CURRENT SECTION ----------
   const focusSectionHeading = (target) => {
-    const heading = target?.matches('.hero')
+    const heading = target?.matches('.hero, .help-home')
       ? target.querySelector('h1')
       : target?.querySelector('h2');
 
@@ -197,6 +370,13 @@ document.addEventListener('DOMContentLoaded', () => {
       link.classList.toggle('active', isCurrent);
       if (isCurrent) {
         link.setAttribute('aria-current', 'location');
+        if (sidebar && !mobileNavigation.matches && !link.hidden) {
+          const itemRect = link.getBoundingClientRect();
+          const sideRect = sidebar.getBoundingClientRect();
+          if (itemRect.top < sideRect.top + 70 || itemRect.bottom > sideRect.bottom - 24) {
+            link.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+          }
+        }
       } else {
         link.removeAttribute('aria-current');
       }
