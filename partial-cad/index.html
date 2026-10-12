@@ -37,9 +37,10 @@
     <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-getting-started">Getting Started<span class="chevron" aria-hidden="true">&#9660;</span></button>
     <ul class="nav-links" id="nav-getting-started">
       <li><a href="#overview">Learning home</a></li>
-      <li><a href="#learning-home">Interactive workflow</a></li>
-      <li><a href="#tool-explorer">Tool library</a></li>
+      <li><a href="#tool-explorer">Find a tool</a></li>
+      <li><a href="#tool-explorer">Tool finder</a></li>
       <li><a href="#requirements">Hardware Requirements</a></li>
+      <li><a href="#case-setup-dentaldb">Case setup in DentalDB</a></li>
       <li><a href="#mouse-controls">Mouse Controls</a></li>
       <li><a href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
       <li><a href="#workflow">Workflow Overview</a></li>
@@ -114,9 +115,232 @@
 <!-- MAIN CONTENT -->
 <main class="main-content" id="main-content" tabindex="-1">
 
-  <!-- ==================== HERO ==================== -->
-<header class="hero" id="overview"><div class="hero-grid"><div class="hero-copy"><p class="eyebrow">EXOCAD / PARTIALCAD FIELD GUIDE</p><h1>Learn the logic behind <em>every tool.</em></h1><p class="hero-lede">A visual learning space for PartialCAD. Understand the stages, explore the tools, and connect the small operations to the bigger picture.</p><div class="hero-actions"><a class="hero-primary" href="#learning-home">Explore the workflow ↘</a><a class="hero-secondary" href="#tool-explorer">Find a tool ⌕</a><button class="print-btn" type="button">Print guide</button></div><p class="hero-meta">5 learning stages · Interactive tool library · Original reference preserved</p></div><div class="hero-visual" aria-hidden="true"><div class="visual-orbit orbit-one"></div><div class="visual-orbit orbit-two"></div><div class="visual-core"><b>P</b><span>PARTIALCAD</span><small>LEARNING SYSTEM</small></div><div class="visual-node node-a">01 <b>Prepare</b></div><div class="visual-node node-b">02 <b>Analyse</b></div><div class="visual-node node-c">03 <b>Construct</b></div><div class="visual-node node-d">04 <b>Refine</b></div><div class="visual-node node-e">05 <b>Export</b></div></div></div></header>
-<section class="learning-home" id="learning-home"><p class="section-kicker">THE LEARNING PATH</p><div class="learning-home-heading"><div><h2>See the process. Understand the tools.</h2><p class="section-intro">Select a stage to see its purpose and jump directly into the existing tool notes.</p></div><a class="text-link" href="#tool-explorer">Browse all tools ↗</a></div><div class="learning-workspace"><div class="workflow-map-panel"><div class="panel-heading"><h3>Workflow map</h3><span>Select a stage</span></div><button class="workflow-node is-selected" data-stage="prepare" aria-pressed="true"><span>01</span><b>Prepare</b><small>Scan and setup</small></button><div class="map-connector"></div><button class="workflow-node" data-stage="analyse" aria-pressed="false"><span>02</span><b>Analyse</b><small>Survey and blockout</small></button><div class="map-connector"></div><button class="workflow-node" data-stage="construct" aria-pressed="false"><span>03</span><b>Construct</b><small>Framework elements</small></button><div class="workflow-branches"><button class="workflow-node" data-stage="refine" aria-pressed="false"><span>04</span><b>Refine &amp; detail</b><small>Adjust and inspect</small></button><button class="workflow-node" data-stage="finish" aria-pressed="false"><span>05</span><b>Assemble &amp; export</b><small>Prepare output</small></button></div><p class="map-footnote">Learning map, not a mandatory sequence. Upper, lower and flexible partials may follow different routes; consult the workflow notes below.</p></div><aside class="stage-detail" aria-live="polite"><p class="detail-label">STAGE OVERVIEW <span id="stage-step">01 / 05</span></p><h3 id="stage-detail-title">Prepare</h3><p id="stage-detail-description">Start with scan and case context. Explore preparation tools and setup information documented in the guide.</p><h4>Explore in this stage</h4><div id="stage-tool-links"><a href="#trim-scan">Trim Scan ↗</a><a href="#requirements">Hardware requirements ↗</a><a href="#mouse-controls">Mouse controls ↗</a></div><a class="detail-all-link" href="#tool-explorer">Explore the full tool library →</a></aside></div></section><section class="tool-explorer" id="tool-explorer"><p class="section-kicker">THE TOOL LIBRARY</p><div class="learning-home-heading"><div><h2>Find the tool you need</h2><p class="section-intro">Search tool names and shortcuts, or filter by stage.</p></div><span id="tool-count" class="tool-count">Tools in the guide</span></div><div class="explorer-controls"><label class="explorer-search">⌕ <input type="search" id="tool-search" placeholder="Search tools and shortcuts…" autocomplete="off"><kbd>/</kbd></label><div class="filter-row"><button class="filter-chip is-active" data-filter="all" aria-pressed="true">All tools</button><button class="filter-chip" data-filter="prepare" aria-pressed="false">Preparation</button><button class="filter-chip" data-filter="analyse" aria-pressed="false">Analysis</button><button class="filter-chip" data-filter="construct" aria-pressed="false">Construction</button><button class="filter-chip" data-filter="refine" aria-pressed="false">Refinement</button><button class="filter-chip" data-filter="finish" aria-pressed="false">Assembly &amp; export</button></div></div><p id="tool-search-status" role="status" class="explorer-status">Showing tools from the existing guide.</p><div class="tool-card-grid"><a class="tool-card" data-stage="prepare" data-search="trim scan x" href="#trim-scan"><span>PREPARE <kbd>X</kbd></span><b>Trim Scan</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="analyse" data-search="survey blockout" href="#survey"><span>ANALYSE </span><b>Survey / Blockout</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="analyse" data-search="edit blockout k" href="#edit-blockout"><span>ANALYSE <kbd>K</kbd></span><b>Edit Blockout</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="analyse" data-search="secondary blockout" href="#secondary-blockout"><span>ANALYSE <kbd>⇧K</kbd></span><b>Secondary Blockout</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="add parts" href="#add-parts"><span>CONSTRUCT <kbd>Y</kbd></span><b>Add Parts</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="draw connector" href="#draw-connector"><span>CONSTRUCT <kbd>D</kbd></span><b>Draw Connector</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="draw curves" href="#draw-curves"><span>CONSTRUCT <kbd>D</kbd></span><b>Draw Curves</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="mesh connector" href="#mesh-connector"><span>CONSTRUCT </span><b>Mesh & Connector</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="mesh" href="#mesh"><span>CONSTRUCT </span><b>Mesh</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="bar" href="#bar"><span>CONSTRUCT <kbd>U</kbd></span><b>Bar</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="clone fill wax" href="#clone"><span>CONSTRUCT <kbd>C</kbd></span><b>Clone (Fill Wax)</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="finish lines" href="#finish-lines"><span>CONSTRUCT <kbd>J</kbd></span><b>Finish Lines</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="construct" data-search="apply clasps" href="#apply-clasps"><span>CONSTRUCT <kbd>G</kbd></span><b>Apply Clasps</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="smooth" href="#smooth"><span>REFINE <kbd>V</kbd></span><b>Smooth</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="smooth area" href="#smooth-area"><span>REFINE <kbd>⇧V</kbd></span><b>Smooth Area</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="smudge" href="#smudge"><span>REFINE <kbd>B</kbd></span><b>Smudge</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="tug" href="#tug"><span>REFINE <kbd>T</kbd></span><b>Tug</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="mask" href="#mask"><span>REFINE <kbd>M</kbd></span><b>Mask</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="select wax" href="#select-wax"><span>REFINE <kbd>S</kbd></span><b>Select Wax</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="emboss curve" href="#emboss-curve"><span>REFINE <kbd>L</kbd></span><b>Emboss with Curve</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="emboss image" href="#emboss-image"><span>REFINE <kbd>⇧L</kbd></span><b>Emboss with Image</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="filler" href="#filler"><span>REFINE <kbd>N</kbd></span><b>Filler</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="paint filler" href="#paint-filler"><span>REFINE <kbd>⇧N</kbd></span><b>Paint Filler</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="retention bead" href="#retention-bead"><span>REFINE <kbd>I</kbd></span><b>Retention Bead</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="post" href="#post"><span>REFINE <kbd>A</kbd></span><b>Post</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="supports pipe" href="#pipe"><span>REFINE <kbd>P</kbd></span><b>Apply Supports / Pipe</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="refine" data-search="measure wax" href="#measure-wax"><span>REFINE <kbd>R</kbd></span><b>Measure Wax</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="finish" data-search="assemble parts" href="#assemble-parts"><span>FINISH </span><b>Assemble Parts</b><small>Open existing instructions and settings ↗</small></a><a class="tool-card" data-stage="finish" data-search="save for build" href="#save-build"><span>FINISH <kbd>.</kbd></span><b>Save for Build</b><small>Open existing instructions and settings ↗</small></a></div><div id="tool-empty" class="empty-results" hidden><b>No matching tools</b><p>Try another name or shortcut.</p><button type="button" id="clear-tool-search">Clear search and filters</button></div></section><section class="reference-intro"><p class="section-kicker">THE REFERENCE</p><h2>Detailed tool instructions</h2><p>The tool library above is a quick navigation layer. The full reference below retains the original technical notes and parameter tables.</p></section>
+  <!-- QUICK HELP HOME -->
+  <section class="help-home" id="overview" aria-labelledby="page-title">
+    <div class="help-home-copy">
+      <p class="eyebrow">EXOCAD PARTIALCAD · PRACTICAL GUIDE</p>
+      <h1 id="page-title">Stuck on a step?</h1>
+      <p class="help-lede">Search what you’re trying to do — not just the name of the tool. Find the relevant PartialCAD control, then follow the original instructions and settings.</p>
+    </div>
+    <div class="quick-search-panel" id="tool-explorer">
+      <label for="tool-search">What do you need help with?</label>
+      <div class="quick-search-input"><span aria-hidden="true">⌕</span><input type="search" id="tool-search" placeholder="e.g. remove wax, insertion path, smooth rough area" autocomplete="off" aria-describedby="tool-search-status"><kbd>/</kbd></div>
+      <p class="search-hint">Try a task, a tool name, a setting, or a shortcut key.</p>
+    </div>
+    <div class="task-shortcuts" aria-label="Common problems">
+      <p class="task-shortcuts-label">COMMON TASKS</p>
+      <div class="task-shortcut-list">
+        <button type="button" class="task-shortcut" data-query="cut off wax">Cut or remove wax</button>
+        <button type="button" class="task-shortcut" data-query="add wax">Add wax</button>
+        <button type="button" class="task-shortcut" data-query="insertion path">Set insertion path</button>
+        <button type="button" class="task-shortcut" data-query="rough surface smooth">Smooth rough wax</button>
+        <button type="button" class="task-shortcut" data-query="draw connector">Draw a connector</button>
+        <button type="button" class="task-shortcut" data-query="export build">Prepare final output</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="tool-explorer" aria-labelledby="tool-library-title">
+    <div class="tool-library-heading">
+      <div><p class="section-kicker">TOOL FINDER</p><h2 id="tool-library-title">Find the right tool</h2><p class="section-intro">Each card explains what the tool is for. Open it for the detailed controls, settings and workflow notes.</p></div>
+      <span id="tool-count" class="tool-count">28 tools</span>
+    </div>
+    <div class="explorer-controls">
+      <div class="filter-row" aria-label="Filter tools by task stage">
+        <button class="filter-chip is-active" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-chip" data-filter="prepare" aria-pressed="false">Preparation</button>
+        <button class="filter-chip" data-filter="analyse" aria-pressed="false">Survey &amp; blockout</button>
+        <button class="filter-chip" data-filter="construct" aria-pressed="false">Build framework</button>
+        <button class="filter-chip" data-filter="refine" aria-pressed="false">Edit wax</button>
+        <button class="filter-chip" data-filter="finish" aria-pressed="false">Assemble &amp; export</button>
+      </div>
+    </div>
+    <p id="tool-search-status" role="status" class="explorer-status">Showing all tools. Search by problem, tool, setting or shortcut.</p>
+    <div class="tool-card-grid">
+      <a class="tool-card" data-stage="prepare" data-search="case setup dentaldb prescription patient antagonist partial framework arch start new case" href="#case-setup-dentaldb">
+    <span class="tool-card-meta">START HERE</span>
+    <b>Case Setup in DentalDB</b>
+    <p>Set up the prescription, arch and framework indication correctly before entering PartialCAD.</p>
+    <span class="tool-card-action">Read setup steps <span aria-hidden="true">→</span></span>
+  </a>
+        <a class="tool-card" data-stage="prepare" data-search="trim scan x trim scan excess scan data cut scan plane remove bottom" href="#trim-scan">
+    <span class="tool-card-meta">START HERE<kbd>X</kbd></span>
+    <b>Trim Scan</b>
+    <p>Remove excess scan data before designing the framework.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="analyse" data-search="survey blockout insertion path survey undercut blockout angle survey model" href="#survey">
+    <span class="tool-card-meta">ANALYSE</span>
+    <b>Survey / Blockout</b>
+    <p>Choose an insertion path and manage undercuts before building the framework.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="analyse" data-search="edit blockout k remove blockout wax change blockout smudge edit" href="#edit-blockout">
+    <span class="tool-card-meta">ANALYSE<kbd>K</kbd></span>
+    <b>Edit Blockout</b>
+    <p>Adjust blockout wax after the initial survey.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="analyse" data-search="secondary blockout secondary blockout expert shift k" href="#secondary-blockout">
+    <span class="tool-card-meta">ANALYSE<kbd>⇧K</kbd></span>
+    <b>Secondary Blockout</b>
+    <p>Apply a second, more controlled blockout pass where the design needs it.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="add parts import parts teeth gingiva component" href="#add-parts">
+    <span class="tool-card-meta">BUILD<kbd>Y</kbd></span>
+    <b>Add Parts</b>
+    <p>Place imported components such as teeth or gingiva into the case.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="draw connector draw line curve connector clasp bar finish line" href="#draw-connector">
+    <span class="tool-card-meta">BUILD<kbd>D</kbd></span>
+    <b>Draw Connector</b>
+    <p>Draw the curves that define connectors, clasps, bars and other framework boundaries.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="draw curves curve fitting edit curve expert" href="#draw-curves">
+    <span class="tool-card-meta">BUILD<kbd>D</kbd></span>
+    <b>Draw Curves</b>
+    <p>Create or edit curves with the additional curve-fitting controls.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="mesh connector mesh major connector upper partial palatal connector" href="#mesh-connector">
+    <span class="tool-card-meta">BUILD</span>
+    <b>Mesh &amp; Connector</b>
+    <p>Create a mesh or major connector from the prepared curves.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="mesh standalone mesh" href="#mesh">
+    <span class="tool-card-meta">BUILD</span>
+    <b>Mesh</b>
+    <p>Generate a mesh as a separate operation when the case calls for it.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="bar lingual bar lower partial bar thickness" href="#bar">
+    <span class="tool-card-meta">BUILD<kbd>U</kbd></span>
+    <b>Bar</b>
+    <p>Design a lingual bar for a lower partial framework.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="clone fill wax add wax remove wax cut off wax subtract wax fill wax clone thickness shift clone bottom cutoff" href="#clone">
+    <span class="tool-card-meta">BUILD<kbd>C</kbd></span>
+    <b>Clone (Fill Wax)</b>
+    <p>Add wax with a chosen thickness, or remove a fixed thickness using the modifier key.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="finish lines finish line boundary margin draw finish line" href="#finish-lines">
+    <span class="tool-card-meta">BUILD<kbd>J</kbd></span>
+    <b>Finish Lines</b>
+    <p>Define the finish-line boundaries where the framework meets the model or wax.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="construct" data-search="apply clasps clasp types clasp profile retentive clasp" href="#apply-clasps">
+    <span class="tool-card-meta">BUILD<kbd>G</kbd></span>
+    <b>Apply Clasps</b>
+    <p>Choose and place clasp forms on the prepared design.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="smooth rough surface smooth wax remove wax smudge edit wax" href="#smooth">
+    <span class="tool-card-meta">REFINE<kbd>V</kbd></span>
+    <b>Smooth</b>
+    <p>Smooth rough wax or switch to smudge mode to remove material.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="smooth area large area smooth broad region" href="#smooth-area">
+    <span class="tool-card-meta">REFINE<kbd>⇧V</kbd></span>
+    <b>Smooth Area</b>
+    <p>Smooth a broader selected region rather than brushing a small spot.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="smudge reshape wax push pull move material" href="#smudge">
+    <span class="tool-card-meta">REFINE<kbd>B</kbd></span>
+    <b>Smudge</b>
+    <p>Push or pull wax locally to reshape an area.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="tug pull wax tug reshape" href="#tug">
+    <span class="tool-card-meta">REFINE<kbd>T</kbd></span>
+    <b>Tug</b>
+    <p>Pull a local region of wax to adjust its shape.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="mask protect area prevent edits mask selection" href="#mask">
+    <span class="tool-card-meta">REFINE<kbd>M</kbd></span>
+    <b>Mask</b>
+    <p>Protect an area from accidental edits while working nearby.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="select wax cut off wax cut wax remove wax cut selection delete wax select area convert wax blockout" href="#select-wax">
+    <span class="tool-card-meta">REFINE<kbd>S</kbd></span>
+    <b>Select Wax</b>
+    <p>Select wax or blockout, erase parts of the selection, cut the selection, or convert between wax and blockout.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="emboss curve emboss curve text line raised recessed feature" href="#emboss-curve">
+    <span class="tool-card-meta">REFINE<kbd>L</kbd></span>
+    <b>Emboss with Curve</b>
+    <p>Add a raised or recessed feature following a curve.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="emboss image emboss with image" href="#emboss-image">
+    <span class="tool-card-meta">REFINE<kbd>⇧L</kbd></span>
+    <b>Emboss with Image</b>
+    <p>Open the relevant instructions and controls in the reference guide.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="filler fill gap hole depression add material filler" href="#filler">
+    <span class="tool-card-meta">REFINE<kbd>N</kbd></span>
+    <b>Filler</b>
+    <p>Fill a gap or low area with material.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="paint filler paint fill gap add material brush" href="#paint-filler">
+    <span class="tool-card-meta">REFINE<kbd>⇧N</kbd></span>
+    <b>Paint Filler</b>
+    <p>Paint filler material into a chosen area.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="retention bead retention bead retention detail" href="#retention-bead">
+    <span class="tool-card-meta">REFINE<kbd>I</kbd></span>
+    <b>Retention Bead</b>
+    <p>Add retention-bead detail to the wax surface.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="post post support feature" href="#post">
+    <span class="tool-card-meta">REFINE<kbd>A</kbd></span>
+    <b>Post</b>
+    <p>Add a post feature where the design requires one.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="supports pipe support pipe tube structure" href="#pipe">
+    <span class="tool-card-meta">REFINE<kbd>P</kbd></span>
+    <b>Apply Supports / Pipe</b>
+    <p>Create a pipe-like feature or support geometry.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="refine" data-search="measure wax measure thickness wax thickness gauge check thin" href="#measure-wax">
+    <span class="tool-card-meta">REFINE<kbd>R</kbd></span>
+    <b>Measure Wax</b>
+    <p>Inspect wax thickness and check the design in section.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="finish" data-search="assemble parts assemble parts combine component" href="#assemble-parts">
+    <span class="tool-card-meta">FINISH</span>
+    <b>Assemble Parts</b>
+    <p>Review and assemble the separate designed components.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+<a class="tool-card" data-stage="finish" data-search="save for build export build output mesh final framework save file" href="#save-build">
+    <span class="tool-card-meta">FINISH<kbd>.</kbd></span>
+    <b>Save for Build</b>
+    <p>Generate the final framework mesh and prepare output files.</p>
+    <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
+  </a>
+    </div>
+    <div id="tool-empty" class="empty-results" hidden><b>No matching guide entries</b><p>Try a shorter phrase such as “wax”, “blockout”, “curve” or “thickness”.</p><button type="button" id="clear-tool-search">Clear search</button></div>
+  </section>
+  <section class="reference-intro"><p class="section-kicker">DETAILED REFERENCE</p><h2>Step-by-step instructions and settings</h2><p>Open any tool card to jump to its documented steps, mouse controls, parameters and workflow notes. This guide keeps the technical reference intact while making it easier to find.</p></section>
 
   <!-- ==================== REQUIREMENTS ==================== -->
   <section class="tool-section" id="requirements">
@@ -129,7 +353,6 @@
       <li>Latest exocad DentalDB and PartialCAD license</li>
     </ul>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span>For full hardware specifications, consult the official exocad hardware requirements page.</span>
     </div>
   </section>
@@ -152,7 +375,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Right-click on the CAD window background to access save, load, help, and other scene options. All scene files (.partialCAD) are saved in the project folder accessible through DentalDB.</span>
     </div>
   </section>
@@ -230,10 +452,9 @@
       <li><a href="#save-build">Save for Build</a></li>
     </ol>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span>The exact sequence depends on whether you are designing an <strong>upper</strong>, <strong>lower</strong>, or <strong>flexible</strong> partial. Upper partials go through Mesh &amp; Connector; lower partials go through Bar first. Flexible partials skip connectors and go directly to Save for Build.</span>
     </div>
-    <h3>Case Setup in DentalDB</h3>
+    <h3 id="case-setup-dentaldb">Case Setup in DentalDB</h3>
     <ol>
       <li>Complete the prescription in DentalDB (client and patient name are required).</li>
       <li>Define one or more "Partial framework" teeth on one arch.</li>
@@ -265,7 +486,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>Be careful not to cut any relevant areas when using the Plane selector. Use the view arrows (lower-right toolbar) to check from multiple angles.</span>
     </div>
   </section>
@@ -316,7 +536,6 @@
     <h3>Additional Relief Wax</h3>
     <p>Stone models have sharp edges that scanners round off. If the partial doesn't seat properly, add a light blockout layer using Smooth in Add mode at moderate Smooth Level on sharp edges (rest seats, inter-proximal areas, bead line internal edges).</p>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Hotkeys:</strong> <kbd>Alt+1</kbd> toggles smooth/smudge. <kbd>Alt+2</kbd> normal, <kbd>Alt+3</kbd> add, <kbd>Alt+4</kbd> remove smooth.</span>
     </div>
   </section>
@@ -338,7 +557,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted, including designed partial wax. Use <strong>Select Wax</strong> to selectively convert first.</span>
     </div>
   </section>
@@ -392,7 +610,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Use <kbd>E</kbd> to terminate a curve manually. <kbd>Ctrl+Z</kbd> to undo. For closed curves, if you miss the 2nd click on the start point, type <kbd>E</kbd> to end manually.</span>
     </div>
     <h3>Workflow Variations</h3>
@@ -503,7 +720,6 @@
     <h3>Graphic Interacter</h3>
     <p>Click and drag points on the interacter to adjust <strong>Pattern Position</strong>, <strong>Pattern Orientation</strong>, and <strong>Hole Size</strong> (drag the arrow tip).</p>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>To fill a particular mesh hole, use <strong>Clone</strong> at mesh thickness. To add a tissue stop, use <strong>Select Wax</strong> to convert an area of the mesh riser from blockout to wax.</span>
     </div>
   </section>
@@ -562,7 +778,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Typical values: 1 mm for rest seats and guide planes; 1.75 mm to match the top of the mesh.</span>
     </div>
   </section>
@@ -633,7 +848,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Change the Clasp Type <strong>before</strong> selecting curves on the model. For approach arm clasps, draw the approach arm section first.</span>
     </div>
   </section>
@@ -664,7 +878,6 @@
       <li><strong>Blend smoothly into Mask</strong> — smoother transition at mask edges.</li>
     </ul>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><kbd>Alt+1</kbd> toggles smooth/smudge. <kbd>Alt+2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> changes flatten/add/remove modes.</span>
     </div>
   </section>
@@ -813,7 +1026,6 @@
       <li><strong>Update</strong> — refresh the blue proposal.</li>
     </ul>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Always check that text is legible, especially over stippled areas. Use the <strong>Mask</strong> tool to limit the embossed area.</span>
     </div>
   </section>
@@ -832,7 +1044,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted. Use <strong>Select Wax</strong> to selectively convert partial wax to blockout first.</span>
     </div>
   </section>
@@ -906,7 +1117,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span><strong>Support bar placement:</strong> Lower partials — one bar between posterior ends. Upper partials — two bars: one posterior-to-posterior, one from the midpoint of the posterior bar to the most anterior point.</span>
     </div>
   </section>
@@ -957,7 +1167,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Cut View Hotkeys:</strong> Slider to change slice position. Left-drag for ruler (<kbd>Ctrl</kbd> for multiple). Right-drag to rotate cut plane. Right+Left to move cut plane. Scroll to zoom.</span>
     </div>
   </section>
@@ -1018,7 +1227,6 @@
       <li><strong>Save Relief with Scene</strong> — persist relief to blockout on save.</li>
     </ul>
     <div class="callout callout-info">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Congratulations!</strong> Once the build is complete, the resulting partial framework mesh is displayed over a transparent model so you can inspect the underside. Output files are saved to the project directory.</span>
     </div>
   </section>

@@ -237,44 +237,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Interactive workflow map and searchable tool library.
+  // Problem-first tool finder: search both task language and the full reference section.
   const toolSearch = document.querySelector('#tool-search');
   const toolCards = [...document.querySelectorAll('.tool-card')];
   const filterButtons = [...document.querySelectorAll('.filter-chip')];
+  const taskButtons = [...document.querySelectorAll('.task-shortcut')];
   const toolCount = document.querySelector('#tool-count');
   const toolStatus = document.querySelector('#tool-search-status');
   const toolEmpty = document.querySelector('#tool-empty');
   const clearToolSearch = document.querySelector('#clear-tool-search');
-  const workflowNodes = [...document.querySelectorAll('.workflow-node[data-stage]')];
-  const stageTitle = document.querySelector('#stage-detail-title');
-  const stageDescription = document.querySelector('#stage-detail-description');
-  const stageStep = document.querySelector('#stage-step');
-  const stageToolLinks = document.querySelector('#stage-tool-links');
   let activeFilter = 'all';
-  const stages = {
-    prepare: { number:'01 / 05', title:'Prepare', description:'Start with scan and case context. Explore preparation tools and setup information documented in the guide.', links:[['Trim Scan','#trim-scan'],['Hardware requirements','#requirements'],['Mouse controls','#mouse-controls']] },
-    analyse: { number:'02 / 05', title:'Analyse', description:'Explore survey and blockout information, then find the controls used to review or edit that preparation. Exact paths depend on the case and documented workflow.', links:[['Survey / Blockout','#survey'],['Edit Blockout','#edit-blockout'],['Secondary Blockout','#secondary-blockout']] },
-    construct: { number:'03 / 05', title:'Construct', description:'Find guide entries for adding parts and working with framework elements. Some operations are design-dependent; consult the original workflow notes.', links:[['Add Parts','#add-parts'],['Draw Connector','#draw-connector'],['Mesh & Connector','#mesh-connector'],['Bar','#bar'],['Apply Clasps','#apply-clasps']] },
-    refine: { number:'04 / 05', title:'Refine & detail', description:'Explore editing and detailing tools. This is a discovery category, not a claim that every tool must be used or that operations occur in a fixed order.', links:[['Smooth','#smooth'],['Smudge','#smudge'],['Select Wax','#select-wax'],['Emboss with Curve','#emboss-curve'],['Filler','#filler'],['Measure Wax','#measure-wax']] },
-    finish: { number:'05 / 05', title:'Assemble & export', description:'Review the guide material for assembling parts and preparing build output. Consult documented settings and case-specific instructions before exporting.', links:[['Assemble Parts','#assemble-parts'],['Save for Build','#save-build']] }
+
+  const normalizeToolText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+
+  const cardSearchText = (card) => {
+    const href = card.getAttribute('href') || '';
+    const section = href.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+    return normalizeToolText([card.textContent, card.dataset.search, section?.textContent].filter(Boolean).join(' '));
   };
-  const normalizeToolText = (value) => value.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
+
   const filterToolCards = () => {
-    const query = normalizeToolText(toolSearch?.value ?? '');
+    const rawQuery = toolSearch?.value ?? '';
+    const query = normalizeToolText(rawQuery);
+    const terms = query ? query.split(' ').filter(Boolean) : [];
     let visible = 0;
+
     toolCards.forEach((card) => {
       const stageMatch = activeFilter === 'all' || card.dataset.stage === activeFilter;
-      const haystack = normalizeToolText(card.textContent + ' ' + (card.dataset.search || ''));
-      const queryMatch = !query || query.split(' ').every((term) => haystack.includes(term));
+      const haystack = cardSearchText(card);
+      const queryMatch = !terms.length || terms.every((term) => haystack.includes(term));
       card.hidden = !(stageMatch && queryMatch);
       if (!card.hidden) visible += 1;
     });
-    if (toolCount) toolCount.textContent = visible + (visible === 1 ? ' tool shown' : ' tools shown');
-    if (toolStatus) toolStatus.textContent = query
-      ? visible + (visible === 1 ? ' result' : ' results') + ' for “' + toolSearch.value.trim() + '”.'
-      : activeFilter === 'all' ? 'Showing tools from the existing guide.' : 'Showing tools in ' + (filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this stage') + '.';
+
+    if (toolCount) toolCount.textContent = visible + (visible === 1 ? ' result' : ' results');
+    if (toolStatus) {
+      if (terms.length) {
+        toolStatus.textContent = visible
+          ? visible + (visible === 1 ? ' matching guide entry' : ' matching guide entries') + ' for “' + rawQuery.trim() + '”. Select a result to open its instructions.'
+          : 'No matches for “' + rawQuery.trim() + '”. Try “wax”, “blockout”, “curve” or “thickness”.';
+      } else {
+        toolStatus.textContent = activeFilter === 'all'
+          ? 'Showing all tools. Search by problem, tool, setting or shortcut.'
+          : 'Showing tools in ' + (filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this category') + '.';
+      }
+    }
     if (toolEmpty) toolEmpty.hidden = visible !== 0;
   };
+
   const setToolFilter = (filter) => {
     activeFilter = filter;
     filterButtons.forEach((button) => {
@@ -284,48 +294,36 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     filterToolCards();
   };
-  const selectStage = (stage) => {
-    const data = stages[stage];
-    if (!data) return;
-    workflowNodes.forEach((node) => {
-      const selected = node.dataset.stage === stage;
-      node.classList.toggle('is-selected', selected);
-      node.setAttribute('aria-pressed', String(selected));
-    });
-    if (stageTitle) stageTitle.textContent = data.title;
-    if (stageDescription) stageDescription.textContent = data.description;
-    if (stageStep) stageStep.textContent = data.number;
-    if (stageToolLinks) {
-      stageToolLinks.replaceChildren();
-      data.links.forEach(([label, href]) => {
-        const link = document.createElement('a');
-        link.href = href;
-        link.textContent = label + ' ↗';
-        stageToolLinks.append(link);
-      });
-    }
-    if (toolSearch) toolSearch.value = '';
-    setToolFilter(stage);
-  };
-  workflowNodes.forEach((node) => node.addEventListener('click', () => selectStage(node.dataset.stage)));
+
   filterButtons.forEach((button) => button.addEventListener('click', () => setToolFilter(button.dataset.filter)));
+
+  taskButtons.forEach((button) => button.addEventListener('click', () => {
+    if (toolSearch) toolSearch.value = button.dataset.query || button.textContent.trim();
+    setToolFilter('all');
+    toolSearch?.focus();
+    document.querySelector('#tool-explorer')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+  }));
+
   toolSearch?.addEventListener('input', filterToolCards);
+
   clearToolSearch?.addEventListener('click', () => {
     if (toolSearch) toolSearch.value = '';
     setToolFilter('all');
     toolSearch?.focus();
   });
+
   document.addEventListener('keydown', (event) => {
     if (event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey &&
         !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName)) {
       event.preventDefault();
       toolSearch?.focus();
+      document.querySelector('#tool-explorer')?.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
     if (event.key === 'Escape' && document.activeElement === toolSearch && toolSearch.value) {
       toolSearch.value = '';
       filterToolCards();
     }
   });
-  filterToolCards();
 
+  filterToolCards();
 });
