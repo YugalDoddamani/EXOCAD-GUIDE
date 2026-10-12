@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New to PartialCAD? | exocad PartialCAD Guide</title>
+<meta name="description" content="A step-by-step draft learning path for exocad PartialCAD beginners, starting with trim scan, survey and blockout.">
+<meta property="og:title" content="New to PartialCAD?">
+<meta property="og:description" content="Learn the PartialCAD workflow in order, one step at a time.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://exocad-guide.pages.dev/partial-cad/og-preview.svg">
+<link rel="canonical" href="https://exocad-guide.pages.dev/partial-cad/learn/">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="stylesheet" href="../styles.css">
+<style>
+.learn-main{max-width:900px;margin:36px auto;padding:0 24px 56px}.learn-hero,.learn-step{background:#fffefa;border:2px solid #171717;border-radius:20px;box-shadow:5px 5px 0 #171717;padding:clamp(20px,4vw,34px);margin-bottom:24px}.learn-kicker{font-size:12px;font-weight:700;letter-spacing:.1em;color:#756d5e}.learn-main h1,.learn-main h2,.learn-main h3{font-family:var(--font-display);color:#171717}.learn-main h1{font-size:clamp(34px,6vw,54px);line-height:1.02;margin:8px 0 12px}.learn-main p,.learn-main li{line-height:1.7}.learn-branch{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.learn-branch button,.learn-nav button,.learn-home-link{border:2px solid #171717;border-radius:10px;padding:10px 14px;background:#f6d75b;color:#171717;font:600 14px var(--font-utility);cursor:pointer;text-decoration:none}.learn-branch button[aria-pressed=true]{background:#35b8a4}.learn-step h2{margin:6px 0 16px}.learn-block{padding:12px 0;border-top:1px solid #e8dfd2}.learn-block h3{font-size:16px;margin:0 0 5px}.learn-draft{display:inline-block;background:#fff1c8;border:1px solid #171717;border-radius:7px;padding:5px 8px;font-size:12px;font-weight:700}.learn-nav{display:flex;justify-content:space-between;gap:12px;margin-top:22px}.learn-nav button:disabled{opacity:.4;cursor:not-allowed}.learn-reference{font-weight:700;color:#171717;text-underline-offset:3px}.learn-progress{height:8px;border:1px solid #171717;border-radius:99px;overflow:hidden;background:#fff1c8;margin:12px 0 18px}.learn-progress span{display:block;height:100%;background:#35b8a4;width:8.333%}
+@media(max-width:600px){.learn-main{padding-inline:14px;margin-top:20px}.learn-nav button{flex:1}}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#learn-content">Skip to learning path</a>
+<header class="site-header"><a class="logo" href="../index.html" style="text-decoration:none">exo<span>cad</span> PartialCAD</a><span class="subtitle">Learning guide</span><a class="learn-home-link" href="../index.html">Back to reference ↗</a></header>
+<main class="learn-main" id="learn-content">
+<section class="learn-hero">
+<p class="learn-kicker">THE LEARNING PATH</p>
+<h1>New to PartialCAD?</h1>
+<p>Start with the big picture, then work through the first steps in order. This is a draft guide, not a replacement for your lab's prescription or the full reference.</p>
+<h2>Which type of partial are you working on?</h2>
+<div class="learn-branch" role="group" aria-label="Choose framework type">
+<button type="button" data-branch="upper" aria-pressed="false">Upper</button><button type="button" data-branch="lower" aria-pressed="false">Lower</button><button type="button" data-branch="flexible" aria-pressed="false">Flexible</button>
+</div>
+<p id="branch-note">Choose a branch to tailor the notes. The first three steps are shared across these workflows.</p>
+</section>
+<section class="learn-step" aria-live="polite">
+<span class="learn-draft">Draft, not yet checked against the software</span>
+<p class="learn-kicker" id="step-count">STEP 1 OF 12</p>
+<div class="learn-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+<h2 id="step-title">Trim Scan</h2>
+<div class="learn-block"><h3>What this step is for</h3><p id="step-purpose"></p></div>
+<div class="learn-block"><h3>What the software is doing for you here</h3><p id="step-software"></p></div>
+<div class="learn-block"><h3>Check this before you press Next</h3><p id="step-check"></p></div>
+<div class="learn-block"><h3>If it goes wrong</h3><p id="step-recovery"></p></div>
+<div class="learn-block"><h3>Open the full reference</h3><p><a class="learn-reference" id="step-reference" href="../index.html#trim-scan">Trim Scan reference ↗</a></p></div>
+<div class="learn-nav"><button type="button" id="previous-step" disabled>← Previous</button><button type="button" id="next-step">Next step →</button></div>
+</section>
+<p><a class="learn-reference" href="../index.html">← Back to the full PartialCAD guide</a></p>
+</main>
+<script src="learn.js"></script>
+</body>
+</html>

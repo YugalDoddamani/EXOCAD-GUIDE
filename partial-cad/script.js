@@ -4,13 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const sidebar = document.querySelector('.sidebar');
   const menuButton = document.querySelector('.hamburger');
   const overlay = document.querySelector('.overlay');
-  const searchInput = document.querySelector('.search-input');
-  const searchStatus = document.querySelector('.search-status');
   const backToTop = document.querySelector('.back-to-top');
   const printButton = document.querySelector('.print-btn');
   const navGroups = [...document.querySelectorAll('.nav-section')];
   const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
-  const sections = [...document.querySelectorAll('.help-home[id], .hero[id], .tool-section[id]')];
+  const sections = [...document.querySelectorAll('.help-home[id], .tool-section[id]')];
   const mobileNavigation = window.matchMedia('(max-width: 920px)');
 
   // ---------- MOBILE NAVIGATION ----------
@@ -84,18 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const categoryShelf = document.querySelector('.category-shelf');
   const folderButtons = [...document.querySelectorAll('[data-folder-filter]')];
   let activeFilter = 'all';
-  let collapsedBeforeSearch = null;
   let activeLinkFrame = null;
 
-  const normalizeText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\s-]/g, ' ').replace(/\s+/g, ' ').trim();
+  const normalizeText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\s-]/g, ' ').replace(/\b(how|do|i|the|a|to|where|should|can|you)\b/g, ' ').replace(/\s+/g, ' ').trim();
   const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
-  const navSearchIndex = navLinks.map((link) => {
-    const target = sectionForLink(link);
-    return { link, group: link.closest('.nav-section'), text: normalizeText(`${link.textContent} ${target?.textContent ?? ''}`) };
-  });
+
+  const rescues = [{ id: 'wax-removal-rescue', phrases: ['remove wax','removing wax','cut off wax','cut wax','delete wax','get rid of wax','wax removal','take off wax','shave wax'], order: ['Select Wax', 'Clone (Fill Wax)', 'Smooth'] }];
 
   const aliases = [
-    { terms: ['remove wax','removing wax','cut off wax','cut wax','wax removal','take off wax','shave wax'], extra: ['select wax','cut selection','clone','shift','smudge'] },
+    { terms: rescues[0].phrases, extra: ['select wax','cut selection','clone','shift','smudge'] },
+    { terms: ['go back','previous step','back a step','undo step','how do i go back','undo','back'], extra: ['keyboard shortcuts','workflow overview'] },
+    { terms: ['where do i start','start','begin','beginner','first step','new','learn'], extra: ['workflow overview','trim scan','new to partialcad'] },
     { terms: ['bumpy','bumps','lumpy','uneven','rough'], extra: ['smooth','smooth area','smudge'] },
     { terms: ['palate','palatal','roof of mouth'], extra: ['mesh connector','major connector'] },
     { terms: ['porosity','porous','holes','voids','pits'], extra: ['mesh','filler','paint filler'] },
@@ -105,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const queryExpansion = (query) => {
-    const normalized = normalizeText(query);
+    const normalized = normalizeText(query).replace(/\b(how|do|i|the|a|to|where|should|can|you)\b/g, ' ').replace(/\s+/g, ' ').trim();
     const extra = aliases.filter((entry) => entry.terms.some((phrase) => normalized.includes(phrase))).flatMap((entry) => entry.extra);
     return [...new Set(extra.map(normalizeText))];
   };
@@ -138,9 +135,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const phrases = [query, ...expanded];
     const combined = [fields.title, fields.aliasesText, fields.summary, fields.body].join(' ');
     const phraseMatch = phrases.some((phrase) => phrase && combined.includes(phrase));
-    const terms = query.split(' ').filter(Boolean);
-    const allTermsMatch = terms.every((term) => combined.includes(term));
+    const terms = query.split(' ').filter((term) => !['how','do','i','the','a','to','where','should','can','you'].includes(term));
+    const allTermsMatch = terms.length > 0 && terms.every((term) => combined.includes(term));
     if (!phraseMatch && !allTermsMatch) return { score: 0, reason: '' };
+    
     let score = 0;
     let reason = '';
     if (fields.title === query) { score += 140; reason = 'Exact tool name'; }
@@ -156,13 +154,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const summaryMatches = terms.filter((term) => fields.summary.includes(term)).length;
     score += summaryMatches * 7;
     const bodyMatches = terms.filter((term) => fields.body.includes(term)).length;
-    score += bodyMatches * 2;
+    score += Math.min(bodyMatches, 3) * 2;
     const expandedMatches = expanded.reduce((total, phrase) => total + (fields.title.includes(phrase) ? 22 : fields.aliasesText.includes(phrase) ? 14 : fields.summary.includes(phrase) ? 6 : 0), 0);
     score += expandedMatches;
     if (!reason) reason = aliasMatches ? 'Related task wording' : summaryMatches ? 'Tool summary' : 'Instructions';
     // The explicit wax-removal path is deliberately ordered by the safest, most targeted first step.
-    if (/remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query)) {
-      const preferred = { 'Select Wax': 500, 'Clone (Fill Wax)': 400, 'Smooth': 300 };
+    const rescue = rescues.find((entry) => entry.phrases.some((phrase) => query.includes(phrase)));
+    if (rescue) {
+      const preferred = Object.fromEntries(rescue.order.map((name, index) => [name, (rescue.order.length - index) * 500]));
       score += preferred[card.querySelector('b')?.textContent.trim()] || 0;
     }
     return { score, reason };
@@ -219,54 +218,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (query) {
       const text = card.querySelector('p')?.textContent.trim() || '';
-      snippet.textContent = reason + (text ? ': ' + text : '');
+      snippet.textContent = reason ? `Matched: ${reason.toLowerCase()}` : '';
       snippet.hidden = false;
     } else {
       snippet.hidden = true;
     }
   };
 
-  const syncSidebarSearch = (query) => {
-    const terms = normalizeText(query).split(' ').filter(Boolean);
-    const matchingItems = navSearchIndex.filter(({ text }) => terms.every((term) => text.includes(term)));
-    const matchedLinks = new Set(matchingItems.map(({ link }) => link));
-    if (query && collapsedBeforeSearch === null) {
-      collapsedBeforeSearch = new Set(navGroups.filter((group) => group.classList.contains('collapsed')));
-    }
-    navSearchIndex.forEach(({ link }) => { link.hidden = Boolean(query) && !matchedLinks.has(link); });
-    navGroups.forEach((group) => {
-      const hasMatch = [...group.querySelectorAll('.nav-links a')].some((link) => !link.hidden);
-      group.hidden = Boolean(query) && !hasMatch;
-      if (query && hasMatch) {
-        group.classList.remove('collapsed');
-        group.querySelector('.nav-section-title')?.setAttribute('aria-expanded', 'true');
-      }
-    });
-    if (!query) {
-      if (collapsedBeforeSearch) {
-        navGroups.forEach((group) => {
-          const shouldCollapse = collapsedBeforeSearch.has(group);
-          group.classList.toggle('collapsed', shouldCollapse);
-          group.querySelector('.nav-section-title')?.setAttribute('aria-expanded', String(!shouldCollapse));
-        });
-        collapsedBeforeSearch = null;
-      }
-      navGroups.forEach((group) => { group.hidden = false; });
-      navSearchIndex.forEach(({ link }) => { link.hidden = false; });
-    }
-    if (searchStatus) searchStatus.textContent = query
-      ? (matchingItems.length ? `${matchingItems.length} navigation sections match “${query}”. Main results are ranked by relevance.` : `No navigation links match “${query}”; check the ranked results.`)
-      : 'Search across tool names, settings, and instructions.';
-  };
+  const guidePages = [{"title":"Workflow Overview","href":"#workflow","terms":"workflow overview steps start begin first step new to partialcad learn","desc":"See the full sequence from case setup to saving the build."},{"title":"Keyboard Shortcuts","href":"#keyboard-shortcuts","terms":"keyboard shortcuts go back previous step back a step undo step ctrl backspace ctrl z","desc":"Find the shortcuts for going back or undoing an edit."},{"title":"Mouse Controls","href":"#mouse-controls","terms":"mouse controls rotate pan zoom click controls","desc":"Review the basic mouse gestures used in PartialCAD."},{"title":"Case Setup in DentalDB","href":"#case-setup-dentaldb","terms":"case setup dentaldb upper lower flexible new case","desc":"Check the case and arch setup before entering PartialCAD."},{"title":"Hardware Requirements","href":"#requirements","terms":"hardware requirements graphics card gpu computer requirements","desc":"Check the hardware needed to run PartialCAD."},{"title":"Glossary","href":"#glossary","terms":"glossary undercut rest seat blockout relief wax riser tissue stop","desc":"Look up common framework design terms."}];
 
   const filterToolCards = (updateUrl = true) => {
-    const rawQuery = mainToolSearch?.value ?? searchInput?.value ?? '';
+    const rawQuery = mainToolSearch?.value ?? '';
     const query = normalizeText(rawQuery);
     const expanded = queryExpansion(rawQuery);
     const glossaryMatches = renderGlossaryMatches(query, expanded);
     const scored = toolCards.map((card, index) => ({ card, index, ...getScore(card, query, expanded) }));
-    const waxIntent = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
-    const waxPriority = new Set(['Select Wax', 'Clone (Fill Wax)', 'Smooth']);
+    const guideMatches = query ? guidePages.map((page) => ({...page, score: (normalizeText(page.title) === query ? 160 : 0) + (normalizeText(page.terms).includes(query) ? 110 : 0) + query.split(' ').filter(Boolean).filter(term => normalizeText(page.title+' '+page.terms+' '+page.desc).includes(term)).length * 12})).filter(page => page.score > 0).sort((a,b)=>b.score-a.score) : [];
+    const matchedRescue = rescues.find((entry) => entry.phrases.some((phrase) => query.includes(phrase)));
+    const waxIntent = Boolean(matchedRescue);
+    const waxPriority = new Set(matchedRescue?.order || []);
     const visible = scored.filter(({ card, score }) => {
       const stageMatch = activeFilter === 'all' || card.dataset.stage === activeFilter;
       const waxMatch = !waxIntent || waxPriority.has(card.querySelector('b')?.textContent.trim());
@@ -284,11 +254,11 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!query) showMatchSnippet(card, '', '');
     });
     if (toolCount) toolCount.textContent = query || activeFilter !== 'all'
-      ? `${visible.length} ${visible.length === 1 ? 'match' : 'matches'}`
+      ? `${visible.length + guideMatches.length} ${(visible.length + guideMatches.length) === 1 ? 'match' : 'matches'}`
       : `${toolCards.length} guide entries`;
     if (toolStatus) {
       toolStatus.textContent = query
-        ? (visible.length ? `${visible.length} ranked tool results for “${rawQuery.trim()}”${glossaryMatches.length ? ` and ${glossaryMatches.length} glossary match${glossaryMatches.length === 1 ? '' : 'es'}` : ''}. Each card shows why it matched.` : (glossaryMatches.length ? `No tool cards matched “${rawQuery.trim()}”, but ${glossaryMatches.length} glossary term${glossaryMatches.length === 1 ? ' may' : 's may'} help.` : `No direct matches for “${rawQuery.trim()}”. Try a related phrase below or browse the glossary.`))
+        ? (visible.length || guideMatches.length ? `${visible.length} ranked tool results for “${rawQuery.trim()}”${glossaryMatches.length ? ` and ${glossaryMatches.length} glossary match${glossaryMatches.length === 1 ? '' : 'es'}` : ''}. Each card shows why it matched.` : (glossaryMatches.length ? `No tool cards matched “${rawQuery.trim()}”, but ${glossaryMatches.length} glossary term${glossaryMatches.length === 1 ? ' may' : 's may'} help.` : `No direct matches for “${rawQuery.trim()}”. Try a related phrase below or browse the glossary.`))
         : activeFilter === 'all'
           ? 'Search by the problem you see, the tool name, a setting, or a shortcut.'
           : `Showing entries in ${filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this category'}.`;
@@ -298,13 +268,26 @@ document.addEventListener('DOMContentLoaded', () => {
       instantResults.hidden = !query;
       if (categoryShelf) categoryShelf.hidden = Boolean(query);
       if (query) {
-        if (!visible.length) {
+        if (!visible.length && !guideMatches.length) {
           const empty = document.createElement('p');
           empty.className = 'instant-empty';
           empty.textContent = 'No matches yet. Try “Smooth”, “blockout” or “remove wax”.';
           instantResults.append(empty);
+        } else if (matchedRescue) {
+          const rescueTitle = document.createElement('p'); rescueTitle.className = 'instant-more'; rescueTitle.textContent = 'Try these in order'; instantResults.append(rescueTitle);
+          matchedRescue.order.forEach((name, index) => {
+            const card = visible.find(({ card }) => card.querySelector('b')?.textContent?.trim() === name)?.card;
+            if (!card) return;
+            const link = document.createElement('a'); link.className = 'instant-result'; link.href = card.getAttribute('href'); link.setAttribute('role', 'option');
+            const title = document.createElement('strong'); title.textContent = `${index + 1}. ${name}`;
+            const description = document.createElement('span');
+            description.textContent = name === 'Select Wax' ? 'Select the area, then use Cut Selection for a clean, defined removal.' : name === 'Clone (Fill Wax)' ? 'Hold Shift while using Clone to remove a fixed thickness of wax. Hold Ctrl to add on top.' : 'Use Smooth for small local corrections when cutting a clean boundary is not ideal.';
+            const arrow = document.createElement('span'); arrow.className = 'instant-result-arrow'; arrow.setAttribute('aria-hidden', 'true'); arrow.textContent = '↗'; link.append(title, description, arrow); instantResults.append(link);
+          });
         } else {
-          visible.slice(0, 8).forEach(({ card }) => {
+          [...visible.slice(0, 6).map(item => ({type:'tool',...item})), ...guideMatches.slice(0,2).map(page=>({type:'guide',...page}))].sort((a,b)=>b.score-a.score).slice(0,8).forEach((result) => {
+            if(result.type === 'guide') { const link=document.createElement('a'); link.className='instant-result'; link.href=result.href; link.setAttribute('role','option'); const title=document.createElement('strong'); title.textContent=result.title; const description=document.createElement('span'); description.textContent=result.desc; const arrow=document.createElement('span'); arrow.className='instant-result-arrow'; arrow.setAttribute('aria-hidden','true'); arrow.textContent='↗'; link.append(title,description,arrow); instantResults.append(link); return; }
+            const card=result.card;
             const link = document.createElement('a');
             link.className = 'instant-result';
             link.href = card.getAttribute('href');
@@ -339,23 +322,18 @@ document.addEventListener('DOMContentLoaded', () => {
           : 'Try a broader term such as wax, rough, undercut, connector, thickness, or one of the glossary terms.';
       }
     }
-    if (waxRescue) {
-      waxRescue.hidden = !waxIntent;
-    }
+    if (waxRescue) waxRescue.hidden = true;
     if (updateUrl) syncQueryToUrl(rawQuery.trim());
   };
 
   const runSharedSearch = (source, value) => {
     if (mainToolSearch && source !== mainToolSearch) mainToolSearch.value = value;
-    if (searchInput && source !== searchInput) searchInput.value = value;
     filterToolCards();
-    syncSidebarSearch(value.trim());
   };
 
-  searchInput?.addEventListener('input', () => runSharedSearch(searchInput, searchInput.value));
   mainToolSearch?.addEventListener('input', () => runSharedSearch(mainToolSearch, mainToolSearch.value));
 
-  [searchInput, mainToolSearch].filter(Boolean).forEach((input) => input.addEventListener('keydown', (event) => {
+  [mainToolSearch].filter(Boolean).forEach((input) => input.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && input.value) {
       runSharedSearch(input, '');
       input.focus();
@@ -412,8 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Restore a shared search from ?q=... when the page opens.
   const initialQuery = new URLSearchParams(window.location.search).get('q') || '';
   if (mainToolSearch) mainToolSearch.value = initialQuery;
-  if (searchInput) searchInput.value = initialQuery;
-  syncSidebarSearch(initialQuery);
   filterToolCards(false);
     // ---------- COLLAPSIBLE NAV GROUPS ----------
   document.querySelectorAll('.nav-section-title').forEach((button) => {
@@ -450,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     activeLinkFrame = null;
     if (!sections.length) return;
 
-    const threshold = (document.querySelector('.site-header')?.offsetHeight ?? 60) + 24;
+    const threshold = (document.querySelector('.site-header')?.offsetHeight ?? 60) + 40;
     let currentSection = sections[0];
 
     for (const section of sections) {
