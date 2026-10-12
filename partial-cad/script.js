@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const taskButtons = [...document.querySelectorAll('.task-shortcut')];
   const toolCount = document.querySelector('#tool-count');
   const toolStatus = document.querySelector('#tool-search-status');
+  const glossarySearchResults = document.querySelector('#glossary-search-results');
+  const glossarySearchList = document.querySelector('#glossary-search-list');
+  const glossaryEntries = [...document.querySelectorAll('.glossary-list > div')];
   const toolEmpty = document.querySelector('#tool-empty');
   const waxRescue = document.querySelector('#wax-removal-rescue');
   const clearToolSearch = document.querySelector('#clear-tool-search');
@@ -154,6 +157,38 @@ document.addEventListener('DOMContentLoaded', () => {
     return { score, reason };
   };
 
+  const renderGlossaryMatches = (query, expanded) => {
+    if (!glossarySearchResults || !glossarySearchList) return [];
+    glossarySearchList.replaceChildren();
+    if (!query) {
+      glossarySearchResults.hidden = true;
+      return [];
+    }
+    const terms = query.split(' ').filter(Boolean);
+    const matches = glossaryEntries.map((entry) => {
+      const title = normalizeText(entry.querySelector('dt')?.textContent || '');
+      const definition = normalizeText(entry.querySelector('dd')?.textContent || '');
+      const combined = title + ' ' + definition;
+      const directPhrase = combined.includes(query);
+      const allTerms = terms.every((term) => combined.includes(term));
+      const aliasMatch = expanded.some((phrase) => combined.includes(phrase));
+      const score = (title === query ? 100 : title.includes(query) ? 70 : directPhrase ? 40 : allTerms ? 20 : aliasMatch ? 10 : 0);
+      return { entry, title, definition, score };
+    }).filter((item) => item.score > 0).sort((a, b) => b.score - a.score);
+    matches.forEach(({ entry, title }) => {
+      const link = document.createElement('a');
+      link.href = '#' + entry.id;
+      const term = document.createElement('strong');
+      term.textContent = entry.querySelector('dt')?.textContent || title;
+      const definition = document.createElement('span');
+      definition.textContent = entry.querySelector('dd')?.textContent || '';
+      link.append(term, definition);
+      glossarySearchList.append(link);
+    });
+    glossarySearchResults.hidden = matches.length === 0;
+    return matches;
+  };
+
   const syncQueryToUrl = (query) => {
     const url = new URL(window.location.href);
     if (query) url.searchParams.set('q', query);
@@ -217,6 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rawQuery = mainToolSearch?.value ?? searchInput?.value ?? '';
     const query = normalizeText(rawQuery);
     const expanded = queryExpansion(rawQuery);
+    const glossaryMatches = renderGlossaryMatches(query, expanded);
     const scored = toolCards.map((card, index) => ({ card, index, ...getScore(card, query, expanded) }));
     const waxIntent = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
     const waxPriority = new Set(['Select Wax', 'Clone (Fill Wax)', 'Smooth']);
@@ -241,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
       : `${toolCards.length} guide entries`;
     if (toolStatus) {
       toolStatus.textContent = query
-        ? (visible.length ? `${visible.length} ranked results for “${rawQuery.trim()}”. Each card shows why it matched.` : `No direct matches for “${rawQuery.trim()}”. Try a related phrase below or browse the glossary.`)
+        ? (visible.length ? `${visible.length} ranked tool results for “${rawQuery.trim()}”${glossaryMatches.length ? ` and ${glossaryMatches.length} glossary match${glossaryMatches.length === 1 ? '' : 'es'}` : ''}. Each card shows why it matched.` : (glossaryMatches.length ? `No tool cards matched “${rawQuery.trim()}”, but ${glossaryMatches.length} glossary term${glossaryMatches.length === 1 ? ' may' : 's may'} help.` : `No direct matches for “${rawQuery.trim()}”. Try a related phrase below or browse the glossary.`))
         : activeFilter === 'all'
           ? 'Search by the problem you see, the tool name, a setting, or a shortcut.'
           : `Showing entries in ${filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this category'}.`;
