@@ -25,7 +25,7 @@ Then open http://localhost:8000/partial-cad/.
 
 - `partial-cad/index.html` contains the navigation, tool cards, glossary, workflow branches, and detailed reference sections.
 - `partial-cad/styles.css` contains the responsive layout, typography, cards, navigation, and print styles.
-- `partial-cad/script.js` powers shared search, relevance ranking, synonyms, URL query sharing, category filters, navigation highlighting, and glossary matches.
+- `partial-cad/script.js` powers main search, relevance ranking, synonyms, URL query sharing, category filters, static sidebar navigation with active-section highlighting, and inline glossary matches.
 
 ## Add or edit a tool card
 
