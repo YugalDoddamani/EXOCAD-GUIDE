@@ -1,118 +1,239 @@
-/* ===== exocad PartialCAD Guide - JavaScript ===== */
+/* exocad PartialCAD guide interactions */
 
 document.addEventListener('DOMContentLoaded', () => {
+  const sidebar = document.querySelector('.sidebar');
+  const menuButton = document.querySelector('.hamburger');
+  const overlay = document.querySelector('.overlay');
+  const searchInput = document.querySelector('.search-input');
+  const searchStatus = document.querySelector('.search-status');
+  const backToTop = document.querySelector('.back-to-top');
+  const printButton = document.querySelector('.print-btn');
+  const navGroups = [...document.querySelectorAll('.nav-section')];
+  const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
+  const sections = [...document.querySelectorAll('.hero[id], .tool-section[id]')];
+  const mobileNavigation = window.matchMedia('(max-width: 920px)');
 
-  // ---------- SIDEBAR TOGGLE (mobile) ----------
-  const hamburger = document.querySelector('.hamburger');
-  const sidebar   = document.querySelector('.sidebar');
-  const overlay   = document.querySelector('.overlay');
-
-  hamburger?.addEventListener('click', () => {
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('open');
+  const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
+  const normalizeText = (value) => value.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
+  const searchIndex = navLinks.map((link) => {
+    const target = sectionForLink(link);
+    return {
+      link,
+      group: link.closest('.nav-section'),
+      text: normalizeText(`${link.textContent} ${target?.textContent ?? ''}`),
+    };
   });
-  overlay?.addEventListener('click', () => {
+
+  let collapsedBeforeSearch = null;
+  let activeLinkFrame = null;
+
+  // ---------- MOBILE NAVIGATION ----------
+  const setNavigationOpen = (open, returnFocus = false) => {
+    if (!sidebar || !menuButton || !mobileNavigation.matches) return;
+
+    sidebar.classList.toggle('open', open);
+    sidebar.inert = !open;
+    if (open) {
+      sidebar.removeAttribute('aria-hidden');
+    } else {
+      sidebar.setAttribute('aria-hidden', 'true');
+    }
+
+    menuButton.setAttribute('aria-expanded', String(open));
+    menuButton.setAttribute('aria-label', open ? 'Close tool navigation' : 'Open tool navigation');
+    overlay?.classList.toggle('open', open);
+
+    if (open) {
+      searchInput?.focus({ preventScroll: true });
+    } else if (returnFocus) {
+      menuButton.focus();
+    }
+  };
+
+  const syncNavigationForViewport = () => {
+    if (!sidebar || !menuButton) return;
+
+    if (mobileNavigation.matches) {
+      const open = sidebar.classList.contains('open');
+      sidebar.inert = !open;
+      if (open) {
+        sidebar.removeAttribute('aria-hidden');
+      } else {
+        sidebar.setAttribute('aria-hidden', 'true');
+      }
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Close tool navigation' : 'Open tool navigation');
+      overlay?.classList.toggle('open', open);
+      return;
+    }
+
     sidebar.classList.remove('open');
-    overlay.classList.remove('open');
+    sidebar.inert = false;
+    sidebar.removeAttribute('aria-hidden');
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-label', 'Open tool navigation');
+    overlay?.classList.remove('open');
+  };
+
+  menuButton?.addEventListener('click', () => {
+    setNavigationOpen(!sidebar?.classList.contains('open'));
   });
 
-  // Close sidebar when a link is clicked (mobile)
-  sidebar?.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      if (window.innerWidth <= 900) {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('open');
+  overlay?.addEventListener('click', () => setNavigationOpen(false, true));
+  mobileNavigation.addEventListener('change', syncNavigationForViewport);
+  syncNavigationForViewport();
+
+  // ---------- SEARCH ALL GUIDE CONTENT ----------
+  const applySearch = () => {
+    if (!sidebar || !searchInput) return;
+
+    const query = normalizeText(searchInput.value);
+    const terms = query ? query.split(' ') : [];
+    const matchingItems = searchIndex.filter(({ text }) => terms.every((term) => text.includes(term)));
+    const matchedLinks = new Set(matchingItems.map(({ link }) => link));
+
+    if (query && collapsedBeforeSearch === null) {
+      collapsedBeforeSearch = new Set(
+        navGroups.filter((group) => group.classList.contains('collapsed')),
+      );
+    }
+
+    searchIndex.forEach(({ link }) => {
+      link.hidden = Boolean(query) && !matchedLinks.has(link);
+    });
+
+    navGroups.forEach((group) => {
+      const hasMatch = [...group.querySelectorAll('.nav-links a')].some((link) => !link.hidden);
+      group.hidden = Boolean(query) && !hasMatch;
+
+      if (query && hasMatch) {
+        group.classList.remove('collapsed');
+        group.querySelector('.nav-section-title')?.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    if (query) {
+      const resultCount = matchingItems.length;
+      searchStatus.textContent = resultCount
+        ? `${resultCount} matching ${resultCount === 1 ? 'section' : 'sections'} for “${searchInput.value.trim()}”.`
+        : `No sections match “${searchInput.value.trim()}”. Try a tool name or parameter.`;
+    } else {
+      if (collapsedBeforeSearch) {
+        navGroups.forEach((group) => {
+          const shouldCollapse = collapsedBeforeSearch.has(group);
+          group.classList.toggle('collapsed', shouldCollapse);
+          group.querySelector('.nav-section-title')?.setAttribute('aria-expanded', String(!shouldCollapse));
+        });
+        collapsedBeforeSearch = null;
+      }
+
+      navGroups.forEach((group) => { group.hidden = false; });
+      searchIndex.forEach(({ link }) => { link.hidden = false; });
+      searchStatus.textContent = 'Search across tool names, settings, and instructions.';
+    }
+  };
+
+  searchInput?.addEventListener('input', applySearch);
+
+  searchInput?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && searchInput.value) {
+      searchInput.value = '';
+      applySearch();
+    }
+  });
+
+  // ---------- COLLAPSIBLE NAV GROUPS ----------
+  document.querySelectorAll('.nav-section-title').forEach((button) => {
+    button.addEventListener('click', () => {
+      const group = button.closest('.nav-section');
+      const collapsed = group.classList.toggle('collapsed');
+      button.setAttribute('aria-expanded', String(!collapsed));
+    });
+  });
+
+  // ---------- IN-PAGE NAVIGATION + CURRENT SECTION ----------
+  const focusSectionHeading = (target) => {
+    const heading = target?.matches('.hero')
+      ? target.querySelector('h1')
+      : target?.querySelector('h2');
+
+    if (!heading) return;
+    heading.setAttribute('tabindex', '-1');
+    heading.focus({ preventScroll: true });
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const target = sectionForLink(link);
+      if (target) focusSectionHeading(target);
+
+      if (mobileNavigation.matches && sidebar?.classList.contains('open')) {
+        setNavigationOpen(false);
       }
     });
   });
 
-  // ---------- SEARCH ----------
-  const searchInput = document.querySelector('.search-input');
-  searchInput?.addEventListener('input', () => {
-    const q = searchInput.value.toLowerCase().trim();
-    sidebar.querySelectorAll('.nav-links a').forEach(a => {
-      const text = a.textContent.toLowerCase();
-      a.style.display = (!q || text.includes(q)) ? '' : 'none';
-    });
-    // Show/hide section titles based on visible children
-    sidebar.querySelectorAll('.nav-section').forEach(sec => {
-      const visibleLinks = sec.querySelectorAll('.nav-links a:not([style*="display: none"])');
-      sec.style.display = visibleLinks.length ? '' : 'none';
-    });
-  });
+  const updateCurrentSection = () => {
+    activeLinkFrame = null;
+    if (!sections.length) return;
 
-  // ---------- SECTION COLLAPSE ----------
-  document.querySelectorAll('.nav-section-title').forEach(title => {
-    title.addEventListener('click', () => {
-      title.parentElement.classList.toggle('collapsed');
-    });
-  });
+    const threshold = (document.querySelector('.site-header')?.offsetHeight ?? 60) + 24;
+    let currentSection = sections[0];
 
-  // ---------- ACTIVE LINK HIGHLIGHTING ----------
-  const sections = document.querySelectorAll('.tool-section[id]');
-  const navLinks = sidebar?.querySelectorAll('.nav-links a[href^="#"]');
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= threshold) {
+        currentSection = section;
+      } else {
+        break;
+      }
+    }
 
-  const updateActiveLink = () => {
-    let currentId = '';
-    const offset = 100;
-    sections.forEach(section => {
-      const top = section.getBoundingClientRect().top;
-      if (top < offset) currentId = section.id;
-    });
-    navLinks?.forEach(link => {
-      link.classList.toggle('active', link.getAttribute('href') === '#' + currentId);
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2) {
+      currentSection = sections[sections.length - 1];
+    }
+
+    navLinks.forEach((link) => {
+      const isCurrent = link.hash === `#${currentSection.id}`;
+      link.classList.toggle('active', isCurrent);
+      if (isCurrent) {
+        link.setAttribute('aria-current', 'location');
+      } else {
+        link.removeAttribute('aria-current');
+      }
     });
   };
-  window.addEventListener('scroll', updateActiveLink, { passive: true });
-  updateActiveLink();
 
-  // ---------- READING PROGRESS BAR ----------
-  const progressBar = document.querySelector('.reading-progress');
-  const updateProgress = () => {
-    const scrollTop = window.scrollY;
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-    progressBar.style.width = pct + '%';
+  const scheduleCurrentSectionUpdate = () => {
+    if (activeLinkFrame) return;
+    activeLinkFrame = window.requestAnimationFrame(updateCurrentSection);
   };
-  window.addEventListener('scroll', updateProgress, { passive: true });
-  updateProgress();
+
+  window.addEventListener('scroll', scheduleCurrentSectionUpdate, { passive: true });
+  window.addEventListener('resize', scheduleCurrentSectionUpdate, { passive: true });
+  window.addEventListener('hashchange', scheduleCurrentSectionUpdate);
+  updateCurrentSection();
 
   // ---------- BACK TO TOP ----------
-  const backBtn = document.querySelector('.back-to-top');
-  const toggleBackBtn = () => {
-    backBtn.classList.toggle('visible', window.scrollY > 400);
+  const updateBackToTop = () => {
+    if (backToTop) backToTop.hidden = window.scrollY < 480;
   };
-  window.addEventListener('scroll', toggleBackBtn, { passive: true });
-  backBtn?.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  window.addEventListener('scroll', updateBackToTop, { passive: true });
+  updateBackToTop();
+
+  backToTop?.addEventListener('click', () => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' });
+    focusSectionHeading(document.getElementById('overview'));
   });
 
-  // ---------- SMOOTH SECTION TRANSITIONS ----------
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-      }
-    });
-  }, { threshold: 0.08 });
+  // ---------- PRINT ----------
+  printButton?.addEventListener('click', () => window.print());
 
-  sections.forEach(section => {
-    section.style.opacity = '0';
-    section.style.transform = 'translateY(18px)';
-    section.style.transition = 'opacity .45s ease, transform .45s ease';
-    observer.observe(section);
+  // ---------- ESCAPE CLOSES THE MOBILE NAV ----------
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileNavigation.matches && sidebar?.classList.contains('open')) {
+      setNavigationOpen(false, true);
+    }
   });
-
-  // ---------- EXPAND / COLLAPSE ALL ----------
-  const expandAllBtn = document.querySelector('.expand-all');
-  expandAllBtn?.addEventListener('click', () => {
-    const collapsed = sidebar.querySelectorAll('.nav-section.collapsed');
-    collapsed.forEach(sec => sec.classList.remove('collapsed'));
-  });
-
-  // ---------- PRINT BUTTON ----------
-  const printBtn = document.querySelector('.print-btn');
-  printBtn?.addEventListener('click', () => window.print());
-
 });
