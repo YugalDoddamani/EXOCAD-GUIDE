@@ -4,7 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PartialCAD Learning Guide | exocad</title>
-  <meta name="description" content="An interactive PartialCAD learning guide with workflow exploration, tool discovery, settings, and shortcuts.">
+  <meta name="description" content="A practical, searchable beginner guide to exocad PartialCAD tools, wax editing, blockout, framework design and workflow.">
+  <meta property="og:title" content="PartialCAD Practical Guide">
+  <meta property="og:description" content="Find the PartialCAD tool or workflow step that solves the problem you are stuck on.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 40 40%22%3E%3Crect width=%2240%22 height=%2240%22 rx=%226%22 fill=%22%23152c3d%22/%3E%3Cpath d=%22M10 12h20M10 20h14M10 28h9%22 stroke=%22white%22 stroke-width=%223%22 stroke-linecap=%22round%22/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -28,7 +32,7 @@
   <div class="search-box">
     <label class="visually-hidden" for="guide-search">Search tools, settings, and instructions</label>
     <span class="search-icon" aria-hidden="true">⌕</span>
-    <input type="search" id="guide-search" class="search-input" placeholder="Find a tool or setting" autocomplete="off" aria-describedby="search-status">
+    <input type="search" id="guide-search" class="search-input" placeholder="Search guide and tools…" autocomplete="off" aria-describedby="search-status">
     <p class="search-status" id="search-status" role="status" aria-live="polite">Search across tool names, settings, and instructions.</p>
   </div>
 
@@ -38,31 +42,36 @@
     <ul class="nav-links" id="nav-getting-started">
       <li><a href="#overview">Learning home</a></li>
       <li><a href="#tool-explorer">Find a tool</a></li>
-      <li><a href="#tool-explorer">Tool finder</a></li>
       <li><a href="#requirements">Hardware Requirements</a></li>
       <li><a href="#case-setup-dentaldb">Case setup in DentalDB</a></li>
       <li><a href="#mouse-controls">Mouse Controls</a></li>
       <li><a href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
       <li><a href="#workflow">Workflow Overview</a></li>
+      <li><a href="#glossary">Glossary</a></li>
     </ul>
   </div>
 
-  <!-- Preparation -->
+  <!-- Finder categories match the category filters -->
   <div class="nav-section">
     <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-preparation">Preparation<span class="chevron" aria-hidden="true">&#9660;</span></button>
     <ul class="nav-links" id="nav-preparation">
       <li><a href="#trim-scan">Trim Scan <kbd>X</kbd></a></li>
-      <li><a href="#survey">Survey / Blockout</a></li>
-      <li><a href="#edit-blockout">Edit Blockout <kbd>K</kbd></a></li>
-      <li><a href="#secondary-blockout">Secondary Blockout <kbd>⇧K</kbd></a></li>
-      <li><a href="#add-parts">Add Parts <kbd>Y</kbd></a></li>
     </ul>
   </div>
 
-  <!-- Structure -->
   <div class="nav-section">
-    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-framework">Framework Structure<span class="chevron" aria-hidden="true">&#9660;</span></button>
+    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-survey">Survey &amp; Blockout<span class="chevron" aria-hidden="true">&#9660;</span></button>
+    <ul class="nav-links" id="nav-survey">
+      <li><a href="#survey">Survey / Blockout</a></li>
+      <li><a href="#edit-blockout">Edit Blockout <kbd>K</kbd></a></li>
+      <li><a href="#secondary-blockout">Secondary Blockout <kbd>⇧K</kbd></a></li>
+    </ul>
+  </div>
+
+  <div class="nav-section">
+    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-framework">Build Framework<span class="chevron" aria-hidden="true">&#9660;</span></button>
     <ul class="nav-links" id="nav-framework">
+      <li><a href="#add-parts">Add Parts <kbd>Y</kbd></a></li>
       <li><a href="#draw-connector">Draw Connector <kbd>D</kbd></a></li>
       <li><a href="#draw-curves">Draw Curves <kbd>D</kbd></a></li>
       <li><a href="#mesh-connector">Mesh &amp; Connector</a></li>
@@ -74,23 +83,16 @@
     </ul>
   </div>
 
-  <!-- Refinement -->
   <div class="nav-section">
-    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-refinement">Refinement<span class="chevron" aria-hidden="true">&#9660;</span></button>
+    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-refinement">Edit Wax<span class="chevron" aria-hidden="true">&#9660;</span></button>
     <ul class="nav-links" id="nav-refinement">
+      <li><a href="#refine-detail">Refine &amp; Detail <kbd>11</kbd></a></li>
       <li><a href="#smooth">Smooth <kbd>V</kbd></a></li>
       <li><a href="#smooth-area">Smooth Area <kbd>⇧V</kbd></a></li>
       <li><a href="#smudge">Smudge <kbd>B</kbd></a></li>
       <li><a href="#tug">Tug <kbd>T</kbd></a></li>
       <li><a href="#mask">Mask <kbd>M</kbd></a></li>
       <li><a href="#select-wax">Select Wax <kbd>S</kbd></a></li>
-    </ul>
-  </div>
-
-  <!-- Detailing -->
-  <div class="nav-section">
-    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-detailing">Detailing &amp; Features<span class="chevron" aria-hidden="true">&#9660;</span></button>
-    <ul class="nav-links" id="nav-detailing">
       <li><a href="#emboss-curve">Emboss with Curve <kbd>L</kbd></a></li>
       <li><a href="#emboss-image">Emboss with Image <kbd>⇧L</kbd></a></li>
       <li><a href="#filler">Filler <kbd>N</kbd></a></li>
@@ -102,9 +104,8 @@
     </ul>
   </div>
 
-  <!-- Assembly & Export -->
   <div class="nav-section">
-    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-assembly">Assembly &amp; Export<span class="chevron" aria-hidden="true">&#9660;</span></button>
+    <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-assembly">Assemble &amp; Export<span class="chevron" aria-hidden="true">&#9660;</span></button>
     <ul class="nav-links" id="nav-assembly">
       <li><a href="#assemble-parts">Assemble Parts</a></li>
       <li><a href="#save-build">Save for Build <kbd>.</kbd></a></li>
@@ -121,11 +122,13 @@
       <p class="eyebrow">EXOCAD PARTIALCAD · PRACTICAL GUIDE</p>
       <h1 id="page-title">Stuck on a step?</h1>
       <p class="help-lede">Search what you’re trying to do — not just the name of the tool. Find the relevant PartialCAD control, then follow the original instructions and settings.</p>
+      <p class="guide-disclaimer">Unofficial learning guide based on the <a href="https://wiki.exocad.com/" target="_blank" rel="noopener noreferrer">exocad Wiki</a>. Tool behaviour and clinical design choices should be checked against your software version and lab protocol.</p>
+      <p class="badge-legend"><strong>Workflow</strong> marks a guided step. <strong>Expert</strong> marks an additional control available from the Expert icon on the right side of the PartialCAD window; exact options can vary by version.</p>
     </div>
     <div class="quick-search-panel" id="tool-explorer">
       <label for="tool-search">What do you need help with?</label>
       <div class="quick-search-input"><span aria-hidden="true">⌕</span><input type="search" id="tool-search" placeholder="e.g. remove wax, insertion path, smooth rough area" autocomplete="off" aria-describedby="tool-search-status"><kbd>/</kbd></div>
-      <p class="search-hint">Try a task, a tool name, a setting, or a shortcut key.</p>
+      <p class="search-hint">Search a problem in plain language. Both search fields use the same results.</p>
     </div>
     <div class="task-shortcuts" aria-label="Common problems">
       <p class="task-shortcuts-label">COMMON TASKS</p>
@@ -143,7 +146,7 @@
   <section class="tool-explorer" aria-labelledby="tool-library-title">
     <div class="tool-library-heading">
       <div><p class="section-kicker">TOOL FINDER</p><h2 id="tool-library-title">Find the right tool</h2><p class="section-intro">Each card explains what the tool is for. Open it for the detailed controls, settings and workflow notes.</p></div>
-      <span id="tool-count" class="tool-count">28 tools</span>
+      <span id="tool-count" class="tool-count">30 guide entries</span>
     </div>
     <div class="explorer-controls">
       <div class="filter-row" aria-label="Filter tools by task stage">
@@ -156,6 +159,14 @@
       </div>
     </div>
     <p id="tool-search-status" role="status" class="explorer-status">Showing all tools. Search by problem, tool, setting or shortcut.</p>
+    <section class="wax-rescue" id="wax-removal-rescue" hidden aria-labelledby="wax-rescue-title">
+      <div class="wax-rescue-heading"><p class="section-kicker">COMMON PROBLEM</p><h3 id="wax-rescue-title">I need to remove wax</h3><p>Start with the most targeted option. If that does not suit the shape you need, try the next method.</p></div>
+      <ol class="wax-rescue-steps">
+        <li><a href="#select-wax"><span class="rescue-step-number">1</span><span><strong>Select Wax → Cut Selection</strong><small>Use this when you need to remove a defined area of wax precisely.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
+        <li><a href="#clone"><span class="rescue-step-number">2</span><span><strong>Clone (Fill Wax) + Shift</strong><small>Use this when you need to remove material by applying the negative thickness behaviour described in the tool instructions. Ctrl is used to add on top.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
+        <li><a href="#smooth"><span class="rescue-step-number">3</span><span><strong>Smooth → Smudge mode</strong><small>Use this for small local corrections when you want to reshape the wax instead of cutting a clean boundary.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
+      </ol>
+    </section>
     <div class="tool-card-grid">
       <a class="tool-card" data-stage="prepare" data-search="case setup dentaldb prescription patient antagonist partial framework arch start new case" href="#case-setup-dentaldb">
     <span class="tool-card-meta">START HERE</span>
@@ -169,13 +180,13 @@
     <p>Remove excess scan data before designing the framework.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="analyse" data-search="survey blockout insertion path survey undercut blockout angle survey model" href="#survey">
+<a class="tool-card" data-stage="analyse" data-search="survey blockout insertion path survey undercut blockout angle survey model path of insertion tilt draw direction" href="#survey">
     <span class="tool-card-meta">ANALYSE</span>
     <b>Survey / Blockout</b>
     <p>Choose an insertion path and manage undercuts before building the framework.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="analyse" data-search="edit blockout k remove blockout wax change blockout smudge edit" href="#edit-blockout">
+<a class="tool-card" data-stage="analyse" data-search="edit blockout k remove blockout wax change blockout smudge edit cut off wax remove wax" href="#edit-blockout">
     <span class="tool-card-meta">ANALYSE<kbd>K</kbd></span>
     <b>Edit Blockout</b>
     <p>Adjust blockout wax after the initial survey.</p>
@@ -193,25 +204,25 @@
     <p>Place imported components such as teeth or gingiva into the case.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="construct" data-search="draw connector draw line curve connector clasp bar finish line" href="#draw-connector">
+<a class="tool-card" data-stage="construct" data-search="draw connector draw line curve connector clasp bar finish line framework outline" href="#draw-connector">
     <span class="tool-card-meta">BUILD<kbd>D</kbd></span>
     <b>Draw Connector</b>
     <p>Draw the curves that define connectors, clasps, bars and other framework boundaries.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="construct" data-search="draw curves curve fitting edit curve expert" href="#draw-curves">
+<a class="tool-card" data-stage="construct" data-search="draw curves curve fitting edit curve expert outline framework" href="#draw-curves">
     <span class="tool-card-meta">BUILD<kbd>D</kbd></span>
     <b>Draw Curves</b>
     <p>Create or edit curves with the additional curve-fitting controls.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="construct" data-search="mesh connector mesh major connector upper partial palatal connector" href="#mesh-connector">
+<a class="tool-card" data-stage="construct" data-search="mesh connector mesh major connector upper partial palatal palate palatal plate palate connector roof of mouth" href="#mesh-connector">
     <span class="tool-card-meta">BUILD</span>
     <b>Mesh &amp; Connector</b>
     <p>Create a mesh or major connector from the prepared curves.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="construct" data-search="mesh standalone mesh" href="#mesh">
+<a class="tool-card" data-stage="construct" data-search="mesh standalone mesh pores porous porosity holes perforations grid" href="#mesh">
     <span class="tool-card-meta">BUILD</span>
     <b>Mesh</b>
     <p>Generate a mesh as a separate operation when the case calls for it.</p>
@@ -223,10 +234,10 @@
     <p>Design a lingual bar for a lower partial framework.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="construct" data-search="clone fill wax add wax remove wax cut off wax subtract wax fill wax clone thickness shift clone bottom cutoff" href="#clone">
+<a class="tool-card" data-stage="construct" data-search="clone fill wax add wax remove wax cut off wax cut wax subtract wax fill wax clone thickness shift ctrl cut material remove material wax removal shave wax" href="#clone">
     <span class="tool-card-meta">BUILD<kbd>C</kbd></span>
     <b>Clone (Fill Wax)</b>
-    <p>Add wax with a chosen thickness, or remove a fixed thickness using the modifier key.</p>
+    <p>Use Ctrl to add wax on top; use Shift for the remove-wax behaviour described in the reference instructions.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
 <a class="tool-card" data-stage="construct" data-search="finish lines finish line boundary margin draw finish line" href="#finish-lines">
@@ -241,13 +252,13 @@
     <p>Choose and place clasp forms on the prepared design.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="smooth rough surface smooth wax remove wax smudge edit wax" href="#smooth">
+<a class="tool-card" data-stage="refine" data-search="smooth rough surface bumpy uneven rough wax remove wax smudge edit wax lumpy bumps roughness" href="#smooth">
     <span class="tool-card-meta">REFINE<kbd>V</kbd></span>
     <b>Smooth</b>
     <p>Smooth rough wax or switch to smudge mode to remove material.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="smooth area large area smooth broad region" href="#smooth-area">
+<a class="tool-card" data-stage="refine" data-search="smooth area large area smooth broad region bumpy uneven rough surface" href="#smooth-area">
     <span class="tool-card-meta">REFINE<kbd>⇧V</kbd></span>
     <b>Smooth Area</b>
     <p>Smooth a broader selected region rather than brushing a small spot.</p>
@@ -271,7 +282,7 @@
     <p>Protect an area from accidental edits while working nearby.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="select wax cut off wax cut wax remove wax cut selection delete wax select area convert wax blockout" href="#select-wax">
+<a class="tool-card" data-stage="refine" data-search="select wax cut off wax cut wax remove wax cut selection delete wax select area convert wax blockout remove wax precisely trim wax" href="#select-wax">
     <span class="tool-card-meta">REFINE<kbd>S</kbd></span>
     <b>Select Wax</b>
     <p>Select wax or blockout, erase parts of the selection, cut the selection, or convert between wax and blockout.</p>
@@ -283,13 +294,13 @@
     <p>Add a raised or recessed feature following a curve.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="emboss image emboss with image" href="#emboss-image">
+<a class="tool-card" data-stage="refine" data-search="emboss image emboss with image text graphic logo label surface marking" href="#emboss-image">
     <span class="tool-card-meta">REFINE<kbd>⇧L</kbd></span>
     <b>Emboss with Image</b>
-    <p>Open the relevant instructions and controls in the reference guide.</p>
+    <p>Use an image or text graphic to add a surface marking, label or identifying detail to the design.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="filler fill gap hole depression add material filler" href="#filler">
+<a class="tool-card" data-stage="refine" data-search="filler fill gap hole depression add material filler porosity porous holes pits voids" href="#filler">
     <span class="tool-card-meta">REFINE<kbd>N</kbd></span>
     <b>Filler</b>
     <p>Fill a gap or low area with material.</p>
@@ -319,7 +330,7 @@
     <p>Create a pipe-like feature or support geometry.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="refine" data-search="measure wax measure thickness wax thickness gauge check thin" href="#measure-wax">
+<a class="tool-card" data-stage="refine" data-search="measure wax measure thickness wax thickness gauge check thin too thick too thin thin wall thickness inspect material" href="#measure-wax">
     <span class="tool-card-meta">REFINE<kbd>R</kbd></span>
     <b>Measure Wax</b>
     <p>Inspect wax thickness and check the design in section.</p>
@@ -342,9 +353,30 @@
   </section>
   <section class="reference-intro"><p class="section-kicker">DETAILED REFERENCE</p><h2>Step-by-step instructions and settings</h2><p>Open any tool card to jump to its documented steps, mouse controls, parameters and workflow notes. This guide keeps the technical reference intact while making it easier to find.</p></section>
 
+
+  <section class="tool-section glossary-section" id="glossary">
+    <h2>Plain-language glossary</h2>
+    <p>Quick meanings for terms that appear throughout PartialCAD. Search any of these words using either search box.</p>
+    <dl class="glossary-list">
+      <div id="glossary-blockout"><dt>Blockout</dt><dd>Material added to fill unwanted undercuts so the framework can follow its intended path of insertion.</dd></div>
+      <div id="glossary-refractory-model"><dt>Refractory model</dt><dd>A duplicate model made from a heat-resistant material for fabricating a cast framework.</dd></div>
+      <div id="glossary-riser"><dt>Riser</dt><dd>A raised feature or channel used in a manufacturing process; check the specific fabrication workflow before changing it.</dd></div>
+      <div id="glossary-relief-wax"><dt>Relief wax</dt><dd>Space intentionally created between the framework and tissue-bearing areas to reduce pressure.</dd></div>
+      <div id="glossary-tissue-stop"><dt>Tissue stop</dt><dd>A small contact feature that helps locate or stabilize a framework against the model during fabrication.</dd></div>
+      <div id="glossary-draft-angle"><dt>Draft angle</dt><dd>The angle that affects whether a surface can be withdrawn along the chosen insertion direction.</dd></div>
+      <div id="glossary-insertion-path"><dt>Insertion path</dt><dd>The direction the partial framework is intended to move into and out of the mouth.</dd></div>
+      <div id="glossary-undercut"><dt>Undercut</dt><dd>A recessed area relative to the selected insertion path; it may provide clasp retention or require blockout.</dd></div>
+      <div id="glossary-major-connector"><dt>Major connector</dt><dd>The main rigid part joining the framework components across the arch.</dd></div>
+      <div id="glossary-minor-connector"><dt>Minor connector</dt><dd>A smaller connector joining components such as rests or clasps to the major connector.</dd></div>
+      <div id="glossary-rest-seat"><dt>Rest seat</dt><dd>A prepared tooth surface that receives a rest and helps support the partial denture.</dd></div>
+      <div id="glossary-finish-line"><dt>Finish line</dt><dd>The boundary where the metal framework meets adjacent resin or other material.</dd></div>
+      <div id="glossary-lingual-bar"><dt>Lingual bar</dt><dd>A lower-arch major connector positioned along the tongue side of the mandible.</dd></div>
+    </dl>
+  </section>
+
   <!-- ==================== REQUIREMENTS ==================== -->
   <section class="tool-section" id="requirements">
-    <h2>Hardware &amp; Software Requirements</h2>
+    <h2>Hardware &amp; Software Requirements</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>PartialCAD has <strong>stronger hardware requirements</strong> for the graphics card than the classic exocad DentalCAD — a lot of data processing is done on the GPU.</p>
     <ul>
       <li>A dedicated NVIDIA or AMD GPU with up-to-date drivers</li>
@@ -359,7 +391,7 @@
 
   <!-- ==================== MOUSE CONTROLS ==================== -->
   <section class="tool-section" id="mouse-controls">
-    <h2>Mouse Controls</h2>
+    <h2>Mouse Controls</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>PartialCAD uses the standard exocad mouse interface. 3Dconnexion 3D mice are also supported.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Mouse Controls"><table class="param-table">
       <thead><tr><th>Action</th><th>Control</th></tr></thead>
@@ -381,7 +413,7 @@
 
   <!-- ==================== KEYBOARD SHORTCUTS ==================== -->
   <section class="tool-section" id="keyboard-shortcuts">
-    <h2>Keyboard Shortcuts</h2>
+    <h2>Keyboard Shortcuts</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Use these shortcuts to quickly switch tools and perform common actions.</p>
     <div class="kbd-grid">
       <div class="kbd-item"><span>Add Part</span><kbd>Y</kbd></div>
@@ -434,7 +466,7 @@
 
   <!-- ==================== WORKFLOW OVERVIEW ==================== -->
   <section class="tool-section" id="workflow">
-    <h2>Workflow Overview</h2>
+    <h2>Workflow Overview</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>PartialCAD uses a guided, wizard-based workflow. Click <strong>Next</strong> at the bottom of each step to proceed. Additional tools are available via the <strong>Expert</strong> icon on the right side of the screen.</p>
     <h3>Recommended Workflow Order</h3>
     <ol class="workflow-flow" aria-label="Recommended workflow sequence">
@@ -451,9 +483,12 @@
       <li><a href="#smooth">Refine &amp; Detail</a></li>
       <li><a href="#save-build">Save for Build</a></li>
     </ol>
-    <div class="callout callout-info">
-      <span>The exact sequence depends on whether you are designing an <strong>upper</strong>, <strong>lower</strong>, or <strong>flexible</strong> partial. Upper partials go through Mesh &amp; Connector; lower partials go through Bar first. Flexible partials skip connectors and go directly to Save for Build.</span>
+    <div class="workflow-branches" aria-label="Workflow paths by partial type">
+      <article><h4>Upper partial</h4><p>Trim Scan → Survey / Blockout → Add Parts → Draw Connector → <a href="#mesh-connector">Mesh &amp; Connector</a> → refine → Save for Build.</p></article>
+      <article><h4>Lower partial</h4><p>Trim Scan → Survey / Blockout → Add Parts → Draw Connector → <a href="#bar">Bar</a> → refine → Save for Build.</p></article>
+      <article><h4>Flexible partial</h4><p>Trim Scan → Survey / Blockout → prepare the design as required → Save for Build. Connector steps may be skipped for this workflow.</p></article>
     </div>
+    <p class="workflow-note">These are orientation paths, not a substitute for the prescription, lab protocol or version-specific instructions. Use the guided Next button and the tool-specific notes for the case in front of you.</p>
     <h3 id="case-setup-dentaldb">Case Setup in DentalDB</h3>
     <ol>
       <li>Complete the prescription in DentalDB (client and patient name are required).</li>
@@ -470,7 +505,7 @@
 
   <!-- TRIM SCAN -->
   <section class="tool-section" id="trim-scan">
-    <h2><span class="step-badge">1</span> Trim Scan <span class="badge badge-workflow">Workflow</span></h2>
+    <h2><span class="step-badge">1</span> Trim Scan <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Remove unnecessary scan data before beginning the design. The input scan should only include the mesh under the partial framework plus any involved teeth.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Trim Scan"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -492,7 +527,7 @@
 
   <!-- SURVEY -->
   <section class="tool-section" id="survey">
-    <h2><span class="step-badge">2</span> Survey / Blockout Model <span class="badge badge-workflow">Workflow</span></h2>
+    <h2><span class="step-badge">2</span> Survey / Blockout Model <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Specify the insertion direction of the partial relative to the scan data. The software displays undercut colors so you can evaluate and adjust the path of insertion.</p>
     <h3>Setting the Insertion Path</h3>
     <ul>
@@ -518,7 +553,7 @@
 
   <!-- EDIT BLOCKOUT -->
   <section class="tool-section" id="edit-blockout">
-    <h2><span class="step-badge">3</span> Edit Blockout <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">K</span></h2>
+    <h2><span class="step-badge">3</span> Edit Blockout <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">K</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Expose undercuts in the blockout wax to define where retention elements (clasps) will go. The cursor is a ball-brush that you adjust with <kbd>Q</kbd>/<kbd>W</kbd>.</p>
     <h3>Smudge (Remove Blockout)</h3>
     <ul>
@@ -542,7 +577,7 @@
 
   <!-- SECONDARY BLOCKOUT -->
   <section class="tool-section" id="secondary-blockout">
-    <h2>Secondary Blockout <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+K</span></h2>
+    <h2>Secondary Blockout <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+K</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Re-survey a paint-selected area of the refractory model for partials requiring a secondary insertion axis.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Secondary Blockout"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -563,7 +598,7 @@
 
   <!-- ADD PARTS -->
   <section class="tool-section" id="add-parts">
-    <h2><span class="step-badge">4</span> Add Parts <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">Y</span></h2>
+    <h2><span class="step-badge">4</span> Add Parts <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">Y</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Import and manage mesh objects in the current scene. PartialCAD auto-imports all mesh objects defined in DentalDB and designed in DentalCAD.</p>
     <h3>Importing Parts</h3>
     <ul>
@@ -598,7 +633,7 @@
 
   <!-- DRAW CONNECTOR -->
   <section class="tool-section" id="draw-connector">
-    <h2><span class="step-badge">5</span> Draw Connector <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">D</span></h2>
+    <h2><span class="step-badge">5</span> Draw Connector <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">D</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Define curves on the refractory model that are used by many other tools. Open curves are used for lingual bars, clasps, and finish lines; closed curves are used for major connectors, meshes, and extraction sites.</p>
     <h3>Curve Drawing Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Draw Connector"><table class="param-table">
@@ -622,7 +657,7 @@
 
   <!-- DRAW CURVES (EXPERT) -->
   <section class="tool-section" id="draw-curves">
-    <h2>Draw Curves (Expert Mode) <span class="badge badge-expert">Expert</span></h2>
+    <h2>Draw Curves (Expert Mode) <span class="badge badge-expert">Expert</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>In Expert mode, the Draw Curves tool offers advanced options for curve fitting, line types, and junctions.</p>
     <h3>Curve Fitting Options</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Draw Curves (Expert Mode)"><table class="param-table">
@@ -650,7 +685,7 @@
 
   <!-- MESH AND CONNECTOR -->
   <section class="tool-section" id="mesh-connector">
-    <h2><span class="step-badge">6</span> Mesh &amp; Connector <span class="badge badge-workflow">Workflow</span></h2>
+    <h2><span class="step-badge">6</span> Mesh &amp; Connector <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Apply the major connector, meshes, and split gingiva in a single combined step (available from 2023+ releases).</p>
     <h3>Main Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Mesh &amp; Connector"><table class="param-table">
@@ -705,7 +740,7 @@
 
   <!-- MESH (STANDALONE) -->
   <section class="tool-section" id="mesh">
-    <h2>Mesh (Standalone) <span class="badge badge-expert">Expert</span></h2>
+    <h2>Mesh (Standalone) <span class="badge badge-expert">Expert</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Apply meshes to closed curves drawn earlier. Meshes consist of a blue blockout wax "riser" and a beige wax mesh pattern on top.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Mesh (Standalone)"><table class="param-table">
       <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
@@ -726,7 +761,7 @@
 
   <!-- BAR -->
   <section class="tool-section" id="bar">
-    <h2><span class="step-badge">7</span> Bar (Lingual Bar) <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">U</span></h2>
+    <h2><span class="step-badge">7</span> Bar (Lingual Bar) <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">U</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Draw and configure the lingual bar for lower partials.</p>
     <h3>Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Bar (Lingual Bar)"><table class="param-table">
@@ -757,7 +792,7 @@
 
   <!-- CLONE -->
   <section class="tool-section" id="clone">
-    <h2><span class="step-badge">8</span> Clone (Fill in Wax) <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">C</span></h2>
+    <h2><span class="step-badge">8</span> Clone (Fill in Wax) <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">C</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Apply rest seats, distal guide planes, and add material around the mesh to receive finish lines. The Clone tool adds a fixed thickness of wax.</p>
     <h3>Mouse Operations</h3>
     <ul>
@@ -784,7 +819,7 @@
 
   <!-- FINISH LINES -->
   <section class="tool-section" id="finish-lines">
-    <h2><span class="step-badge">9</span> Finish Lines <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">J</span></h2>
+    <h2><span class="step-badge">9</span> Finish Lines <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">J</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Apply finish lines to open curves drawn on the major connector or lingual bar/apron.</p>
     <h3>Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Finish Lines"><table class="param-table">
@@ -813,7 +848,7 @@
 
   <!-- APPLY CLASPS -->
   <section class="tool-section" id="apply-clasps">
-    <h2><span class="step-badge">10</span> Apply Clasps <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">G</span></h2>
+    <h2><span class="step-badge">10</span> Apply Clasps <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">G</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Sequentially apply clasps and minor connectors to open curves.</p>
     <h3>Clasp Types</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Apply Clasps"><table class="param-table">
@@ -856,9 +891,16 @@
   <!--                    REFINEMENT TOOLS                          -->
   <!-- ============================================================ -->
 
+  <!-- REFINEMENT WORKFLOW STEP -->
+  <section class="tool-section" id="refine-detail">
+    <h2><span class="step-badge">11</span> Refine &amp; Detail <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
+    <p>Once the main framework shape is in place, inspect the design and make local corrections before building. Choose the tool based on the problem: <a href="#select-wax">Select Wax</a> for a defined cut, <a href="#smooth">Smooth</a> for surface correction, <a href="#smudge">Smudge</a> to push or pull wax, and <a href="#measure-wax">Measure Wax</a> to check thickness.</p>
+    <p class="workflow-note">Do not use a smoothing or wax-editing tool to compensate for a wrong insertion path or an incorrect framework layout; return to the relevant design step and check the case before continuing.</p>
+  </section>
+
   <!-- SMOOTH -->
   <section class="tool-section" id="smooth">
-    <h2>Smooth <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">V</span></h2>
+    <h2>Smooth <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">V</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>General-purpose smoothing and wax editing tool with two modes.</p>
     <h3>Edit Wax — Smudge Mode</h3>
     <ul>
@@ -884,7 +926,7 @@
 
   <!-- SMOOTH AREA -->
   <section class="tool-section" id="smooth-area">
-    <h2>Smooth Area <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+V</span></h2>
+    <h2>Smooth Area <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+V</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Smooth all wax within a paint-selected area. Often used for extraction sites.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Smooth Area"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -904,7 +946,7 @@
 
   <!-- SMUDGE -->
   <section class="tool-section" id="smudge">
-    <h2>Smudge <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">B</span></h2>
+    <h2>Smudge <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">B</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Smudge is accessed via the Smooth tool in Smudge mode. It removes (or adds) wax material interactively. Use left-click to remove, and keep the cursor in small circles or zig-zag motions for best results.</p>
     <ul>
       <li>Adjust <strong>Tool Size</strong> with <kbd>Q</kbd>/<kbd>W</kbd> or <kbd>Shift</kbd>+Scroll Wheel.</li>
@@ -915,7 +957,7 @@
 
   <!-- TUG -->
   <section class="tool-section" id="tug">
-    <h2>Tug <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">T</span></h2>
+    <h2>Tug <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">T</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>General-purpose free-forming tool for modifying existing wax by "tugging." Rarely used but available for fine adjustments.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Tug"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -931,7 +973,7 @@
 
   <!-- MASK -->
   <section class="tool-section" id="mask">
-    <h2>Mask <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">M</span></h2>
+    <h2>Mask <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">M</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Protect areas of wax from being modified by other tools. Paint-select the areas you want to preserve.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Mask"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -949,7 +991,7 @@
 
   <!-- SELECT WAX -->
   <section class="tool-section" id="select-wax">
-    <h2>Select Wax <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">S</span></h2>
+    <h2>Select Wax <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">S</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Define an area of blockout or partial wax, and optionally convert between the two types.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Select Wax"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -970,7 +1012,7 @@
 
   <!-- EMBOSS WITH CURVE -->
   <section class="tool-section" id="emboss-curve">
-    <h2>Emboss with Curve <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">L</span></h2>
+    <h2>Emboss with Curve <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">L</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Fixed embossing or de-bossing of a region defined by a curve.</p>
     <h3>Usage</h3>
     <ol>
@@ -998,7 +1040,7 @@
 
   <!-- EMBOSS WITH IMAGE -->
   <section class="tool-section" id="emboss-image">
-    <h2>Emboss with Image/Text <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+L</span></h2>
+    <h2>Emboss with Image/Text <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+L</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Place logos, labels, or custom stipple patterns on large areas of mesh.</p>
     <h3>Modes</h3>
     <ul>
@@ -1032,7 +1074,7 @@
 
   <!-- FILLER -->
   <section class="tool-section" id="filler">
-    <h2>Filler <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">N</span></h2>
+    <h2>Filler <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">N</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Fill an area within a closed curve with wax. Useful for deep extraction sites. Typically done after Survey, before partial design.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Filler"><table class="param-table">
       <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
@@ -1050,7 +1092,7 @@
 
   <!-- PAINT FILLER -->
   <section class="tool-section" id="paint-filler">
-    <h2>Paint Filler <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+N</span></h2>
+    <h2>Paint Filler <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+N</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Interactive paint-wax tool for adding wax or blockout over an area. Useful for large areas like rugae that need relief wax.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Paint Filler"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -1066,7 +1108,7 @@
 
   <!-- RETENTION BEAD -->
   <section class="tool-section" id="retention-bead">
-    <h2>Retention Bead <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">I</span></h2>
+    <h2>Retention Bead <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">I</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Apply retention beads to an area of a partial defined by a closed curve.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Retention Bead"><table class="param-table">
       <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
@@ -1082,7 +1124,7 @@
 
   <!-- POST -->
   <section class="tool-section" id="post">
-    <h2>Post <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">A</span></h2>
+    <h2>Post <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">A</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Posts support denture teeth. Click a point on the mesh at the base of the desired post.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Post"><table class="param-table">
       <thead><tr><th>Setting</th><th>Description</th></tr></thead>
@@ -1103,7 +1145,7 @@
 
   <!-- PIPE / SUPPORTS -->
   <section class="tool-section" id="pipe">
-    <h2>Apply Supports / Pipe <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">P</span></h2>
+    <h2>Apply Supports / Pipe <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">P</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Create wax "pipes" or support bars from drawn curves. Support bars prevent warping of printed resin patterns.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Apply Supports / Pipe"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -1123,7 +1165,7 @@
 
   <!-- MEASURE WAX -->
   <section class="tool-section" id="measure-wax">
-    <h2>Measure Wax <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">R</span></h2>
+    <h2>Measure Wax <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">R</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Measure the thickness of partial wax or 3D distance between two points.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Measure Wax"><table class="param-table">
       <thead><tr><th>Mode</th><th>Description</th></tr></thead>
@@ -1146,7 +1188,7 @@
 
   <!-- ASSEMBLE PARTS -->
   <section class="tool-section" id="assemble-parts">
-    <h2>Assemble Parts <span class="badge badge-workflow">Workflow</span></h2>
+    <h2>Assemble Parts <span class="badge badge-workflow">Workflow</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Applies to the QuickSnap workflow. Assemble all designed parts with cement gap parameters.</p>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Assemble Parts"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -1173,7 +1215,7 @@
 
   <!-- SAVE FOR BUILD -->
   <section class="tool-section" id="save-build">
-    <h2><span class="step-badge">12</span> Save for Build <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">.</span></h2>
+    <h2><span class="step-badge">12</span> Save for Build <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">.</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Prepare the design for final output. The process may take a couple of minutes.</p>
     <h3>Main Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Save for Build"><table class="param-table">
