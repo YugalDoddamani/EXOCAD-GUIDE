@@ -29,13 +29,6 @@
 
 <!-- SIDEBAR -->
 <nav class="sidebar" id="guide-nav" aria-label="PartialCAD guide navigation">
-  <div class="search-box">
-    <label class="visually-hidden" for="guide-search">Search tools, settings, and instructions</label>
-    <span class="search-icon" aria-hidden="true">⌕</span>
-    <input type="search" id="guide-search" class="search-input" placeholder="Search guide and tools…" autocomplete="off" aria-describedby="search-status">
-    <p class="search-status" id="search-status" role="status" aria-live="polite">Search across tool names, settings, and instructions.</p>
-  </div>
-
   <!-- Getting Started -->
   <div class="nav-section">
     <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-getting-started">Getting Started<span class="chevron" aria-hidden="true">&#9660;</span></button>
@@ -111,6 +104,12 @@
       <li><a href="#save-build">Save for Build <kbd>.</kbd></a></li>
     </ul>
   </div>
+  <div class="menu-credit">
+    <p class="credit-label">Designed and developed by</p>
+    <p><a href="https://muskankgupta.vercel.app/" target="_blank" rel="noopener noreferrer">Muskan K</a></p>
+    <p><a href="https://yugaldoddamani.pages.dev/" target="_blank" rel="noopener noreferrer">Yugal Doddamani</a></p>
+    <p class="credit-source">Source of knowledge: <a href="https://wiki.exocad.com/" target="_blank" rel="noopener noreferrer">exocad Wiki</a></p>
+  </div>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -123,23 +122,11 @@
       <h1 id="page-title">Stuck on a step?</h1>
       <p class="help-lede">Search what you’re trying to do — not just the name of the tool. Find the relevant PartialCAD control, then follow the original instructions and settings.</p>
       <p class="guide-disclaimer">Unofficial learning guide based on the <a href="https://wiki.exocad.com/" target="_blank" rel="noopener noreferrer">exocad Wiki</a>. Tool behaviour and clinical design choices should be checked against your software version and lab protocol.</p>
-      <p class="badge-legend"><strong>Workflow</strong> marks a guided step. <strong>Expert</strong> marks an additional control available from the Expert icon on the right side of the PartialCAD window; exact options can vary by version.</p>
     </div>
     <div class="quick-search-panel" id="tool-explorer">
       <label for="tool-search">What do you need help with?</label>
       <div class="quick-search-input"><span aria-hidden="true">⌕</span><input type="search" id="tool-search" placeholder="e.g. remove wax, insertion path, smooth rough area" autocomplete="off" aria-describedby="tool-search-status"><kbd>/</kbd></div>
       <p class="search-hint">Search a problem in plain language. Both search fields use the same results.</p>
-    </div>
-    <div class="task-shortcuts" aria-label="Common problems">
-      <p class="task-shortcuts-label">COMMON TASKS</p>
-      <div class="task-shortcut-list">
-        <button type="button" class="task-shortcut" data-query="cut off wax">Cut or remove wax</button>
-        <button type="button" class="task-shortcut" data-query="add wax">Add wax</button>
-        <button type="button" class="task-shortcut" data-query="insertion path">Set insertion path</button>
-        <button type="button" class="task-shortcut" data-query="rough surface smooth">Smooth rough wax</button>
-        <button type="button" class="task-shortcut" data-query="draw connector">Draw a connector</button>
-        <button type="button" class="task-shortcut" data-query="export build">Prepare final output</button>
-      </div>
     </div>
   </section>
 
@@ -342,7 +329,7 @@
     <p>Review and assemble the separate designed components.</p>
     <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
   </a>
-<a class="tool-card" data-stage="finish" data-search="save for build export build output mesh final framework save file" href="#save-build">
+<a class="tool-card" data-stage="finish" data-search="save for build export build output mesh final framework save file save as project partialcad partial cad project file right click stl export stl file save as stl" href="#save-build">
     <span class="tool-card-meta">FINISH<kbd>.</kbd></span>
     <b>Save for Build</b>
     <p>Generate the final framework mesh and prepare output files.</p>
@@ -1041,7 +1028,7 @@
   <!-- EMBOSS WITH IMAGE -->
   <section class="tool-section" id="emboss-image">
     <h2>Emboss with Image/Text <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">Shift+L</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
-    <p>Place logos, labels, or custom stipple patterns on large areas of mesh.</p>
+    <p>Place an image, logo, label, or text on the surface. Use it for markings or texture patterns, including circular text where your version’s text controls support it. Check the preview and placement before applying.</p>
     <h3>Modes</h3>
     <ul>
       <li><strong>Select Image</strong> — choose an image file. Repeated in X/Y if the area is larger. Left-click to place.</li>
@@ -1217,6 +1204,30 @@
   <section class="tool-section" id="save-build">
     <h2><span class="step-badge">12</span> Save for Build <span class="badge badge-workflow">Workflow</span> <span class="badge badge-hotkey">.</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
     <p>Prepare the design for final output. The process may take a couple of minutes.</p>
+    <div class="save-guide" aria-label="How to save your project and export an STL">
+      <h3>Save the project or export an STL?</h3>
+      <div class="save-guide-grid">
+        <article>
+          <p class="save-guide-label">Editable project</p>
+          <ol>
+            <li>Right-click an empty area of the PartialCAD workspace.</li>
+            <li>Choose <strong>Save As</strong>.</li>
+            <li>Save the project with the <code>.PartialCAD</code> extension.</li>
+          </ol>
+          <p class="save-guide-note">Use this to keep a project you can reopen and continue editing.</p>
+        </article>
+        <article>
+          <p class="save-guide-label">STL for output</p>
+          <ol>
+            <li>Finish <strong>Apply Build</strong> and wait for the final build to appear.</li>
+            <li>Right-click the finished build/mesh.</li>
+            <li>Choose <strong>Save as STL file</strong> and select the destination.</li>
+          </ol>
+          <p class="save-guide-note">An STL is the exported mesh, not the editable PartialCAD project.</p>
+        </article>
+      </div>
+      <p class="save-guide-caution">Menu wording can vary between exocad versions. Check the options in your installed version before relying on a version-specific label.</p>
+    </div>
     <h3>Main Controls</h3>
     <section class="table-wrap" tabindex="0" aria-label="Scrollable table 1: Save for Build"><table class="param-table">
       <thead><tr><th>Control</th><th>Description</th></tr></thead>
@@ -1269,9 +1280,25 @@
       <li><strong>Save Relief with Scene</strong> — persist relief to blockout on save.</li>
     </ul>
     <div class="callout callout-info">
-      <span><strong>Congratulations!</strong> Once the build is complete, the resulting partial framework mesh is displayed over a transparent model so you can inspect the underside. Output files are saved to the project directory.</span>
+      <span>When the build finishes, inspect the framework mesh over the transparent model, including its underside. The generated output is also placed in the project directory; use the right-click export steps above when you need a separate STL file.</span>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <div class="footer-main">
+      <p class="footer-kicker">PartialCAD learning guide</p>
+      <p class="footer-note">A practical reference for learning the tools and workflow. Confirm tool behaviour in your installed version and follow your lab’s prescription and protocol.</p>
+    </div>
+    <div class="footer-credit-group">
+      <p class="footer-label">Designed and developed by</p>
+      <p><a href="https://muskankgupta.vercel.app/" target="_blank" rel="noopener noreferrer">Muskan K</a></p>
+      <p><a href="https://yugaldoddamani.pages.dev/" target="_blank" rel="noopener noreferrer">Yugal Doddamani</a></p>
+    </div>
+    <div class="footer-credit-group">
+      <p class="footer-label">Source of knowledge</p>
+      <p><a href="https://wiki.exocad.com/" target="_blank" rel="noopener noreferrer">exocad Wiki</a></p>
+    </div>
+  </footer>
 
 </main>
 
