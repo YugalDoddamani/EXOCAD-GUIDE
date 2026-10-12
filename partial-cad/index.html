@@ -125,17 +125,17 @@
     <div class="quick-search-panel" id="tool-explorer">
       <label for="tool-search">What do you need help with?</label>
       <div class="quick-search-input"><span aria-hidden="true">⌕</span><input type="search" id="tool-search" placeholder="e.g. remove wax, insertion path, smooth rough area" autocomplete="off" aria-describedby="tool-search-status"><kbd>/</kbd></div>
-      <p class="search-hint">Try a task, a tool name, a setting, or a shortcut key.</p>
+      <p class="search-hint">Type what you need. Results show up here.</p>
+      <div class="instant-search-results" id="instant-search-results" role="listbox" aria-label="Search results" hidden></div>
     </div>
-    <div class="task-shortcuts" aria-label="Common problems">
-      <p class="task-shortcuts-label">COMMON TASKS</p>
-      <div class="task-shortcut-list">
-        <button type="button" class="task-shortcut" data-query="cut off wax">Cut or remove wax</button>
-        <button type="button" class="task-shortcut" data-query="add wax">Add wax</button>
-        <button type="button" class="task-shortcut" data-query="insertion path">Set insertion path</button>
-        <button type="button" class="task-shortcut" data-query="rough surface smooth">Smooth rough wax</button>
-        <button type="button" class="task-shortcut" data-query="draw connector">Draw a connector</button>
-        <button type="button" class="task-shortcut" data-query="export build">Prepare final output</button>
+    <div class="category-shelf" aria-label="Browse guide categories">
+      <div class="category-shelf-heading"><h2>Browse by what you're doing</h2><span>Pick a folder to explore</span></div>
+      <div class="folder-grid">
+        <button class="folder-card folder-yellow" type="button" data-folder-filter="prepare"><span class="folder-tab"></span><span class="folder-icon" aria-hidden="true">↗</span><strong>Getting started</strong><small>Setup, scans and first steps</small><span class="folder-open">Open folder ↗</span></button>
+        <button class="folder-card folder-pink" type="button" data-folder-filter="analyse"><span class="folder-tab"></span><span class="folder-icon" aria-hidden="true">⌕</span><strong>Survey &amp; blockout</strong><small>Insertion path and undercuts</small><span class="folder-open">Open folder ↗</span></button>
+        <button class="folder-card folder-green" type="button" data-folder-filter="construct"><span class="folder-tab"></span><span class="folder-icon" aria-hidden="true">✳</span><strong>Build framework</strong><small>Connectors, bars and mesh</small><span class="folder-open">Open folder ↗</span></button>
+        <button class="folder-card folder-purple" type="button" data-folder-filter="refine"><span class="folder-tab"></span><span class="folder-icon" aria-hidden="true">✎</span><strong>Edit &amp; refine</strong><small>Wax shaping and surface tools</small><span class="folder-open">Open folder ↗</span></button>
+        <button class="folder-card folder-orange" type="button" data-folder-filter="finish"><span class="folder-tab"></span><span class="folder-icon" aria-hidden="true">✓</span><strong>Finish &amp; export</strong><small>Assembly, saving and output</small><span class="folder-open">Open folder ↗</span></button>
       </div>
     </div>
   </section>
