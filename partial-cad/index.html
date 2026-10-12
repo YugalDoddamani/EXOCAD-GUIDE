@@ -40,6 +40,7 @@
       <li><a href="#tool-explorer">Find a tool</a></li>
       <li><a href="#tool-explorer">Tool finder</a></li>
       <li><a href="#requirements">Hardware Requirements</a></li>
+      <li><a href="#case-setup-dentaldb">Case setup in DentalDB</a></li>
       <li><a href="#mouse-controls">Mouse Controls</a></li>
       <li><a href="#keyboard-shortcuts">Keyboard Shortcuts</a></li>
       <li><a href="#workflow">Workflow Overview</a></li>
@@ -156,7 +157,13 @@
     </div>
     <p id="tool-search-status" role="status" class="explorer-status">Showing all tools. Search by problem, tool, setting or shortcut.</p>
     <div class="tool-card-grid">
-      <a class="tool-card" data-stage="prepare" data-search="trim scan x trim scan excess scan data cut scan plane remove bottom" href="#trim-scan">
+      <a class="tool-card" data-stage="prepare" data-search="case setup dentaldb prescription patient antagonist partial framework arch start new case" href="#case-setup-dentaldb">
+    <span class="tool-card-meta">START HERE</span>
+    <b>Case Setup in DentalDB</b>
+    <p>Set up the prescription, arch and framework indication correctly before entering PartialCAD.</p>
+    <span class="tool-card-action">Read setup steps <span aria-hidden="true">→</span></span>
+  </a>
+        <a class="tool-card" data-stage="prepare" data-search="trim scan x trim scan excess scan data cut scan plane remove bottom" href="#trim-scan">
     <span class="tool-card-meta">START HERE<kbd>X</kbd></span>
     <b>Trim Scan</b>
     <p>Remove excess scan data before designing the framework.</p>
@@ -346,7 +353,6 @@
       <li>Latest exocad DentalDB and PartialCAD license</li>
     </ul>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span>For full hardware specifications, consult the official exocad hardware requirements page.</span>
     </div>
   </section>
@@ -369,7 +375,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Right-click on the CAD window background to access save, load, help, and other scene options. All scene files (.partialCAD) are saved in the project folder accessible through DentalDB.</span>
     </div>
   </section>
@@ -447,10 +452,9 @@
       <li><a href="#save-build">Save for Build</a></li>
     </ol>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span>The exact sequence depends on whether you are designing an <strong>upper</strong>, <strong>lower</strong>, or <strong>flexible</strong> partial. Upper partials go through Mesh &amp; Connector; lower partials go through Bar first. Flexible partials skip connectors and go directly to Save for Build.</span>
     </div>
-    <h3>Case Setup in DentalDB</h3>
+    <h3 id="case-setup-dentaldb">Case Setup in DentalDB</h3>
     <ol>
       <li>Complete the prescription in DentalDB (client and patient name are required).</li>
       <li>Define one or more "Partial framework" teeth on one arch.</li>
@@ -482,7 +486,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>Be careful not to cut any relevant areas when using the Plane selector. Use the view arrows (lower-right toolbar) to check from multiple angles.</span>
     </div>
   </section>
@@ -533,7 +536,6 @@
     <h3>Additional Relief Wax</h3>
     <p>Stone models have sharp edges that scanners round off. If the partial doesn't seat properly, add a light blockout layer using Smooth in Add mode at moderate Smooth Level on sharp edges (rest seats, inter-proximal areas, bead line internal edges).</p>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Hotkeys:</strong> <kbd>Alt+1</kbd> toggles smooth/smudge. <kbd>Alt+2</kbd> normal, <kbd>Alt+3</kbd> add, <kbd>Alt+4</kbd> remove smooth.</span>
     </div>
   </section>
@@ -555,7 +557,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted, including designed partial wax. Use <strong>Select Wax</strong> to selectively convert first.</span>
     </div>
   </section>
@@ -609,7 +610,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Use <kbd>E</kbd> to terminate a curve manually. <kbd>Ctrl+Z</kbd> to undo. For closed curves, if you miss the 2nd click on the start point, type <kbd>E</kbd> to end manually.</span>
     </div>
     <h3>Workflow Variations</h3>
@@ -720,7 +720,6 @@
     <h3>Graphic Interacter</h3>
     <p>Click and drag points on the interacter to adjust <strong>Pattern Position</strong>, <strong>Pattern Orientation</strong>, and <strong>Hole Size</strong> (drag the arrow tip).</p>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>To fill a particular mesh hole, use <strong>Clone</strong> at mesh thickness. To add a tissue stop, use <strong>Select Wax</strong> to convert an area of the mesh riser from blockout to wax.</span>
     </div>
   </section>
@@ -779,7 +778,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Typical values: 1 mm for rest seats and guide planes; 1.75 mm to match the top of the mesh.</span>
     </div>
   </section>
@@ -850,7 +848,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Change the Clasp Type <strong>before</strong> selecting curves on the model. For approach arm clasps, draw the approach arm section first.</span>
     </div>
   </section>
@@ -881,7 +878,6 @@
       <li><strong>Blend smoothly into Mask</strong> — smoother transition at mask edges.</li>
     </ul>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><kbd>Alt+1</kbd> toggles smooth/smudge. <kbd>Alt+2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> changes flatten/add/remove modes.</span>
     </div>
   </section>
@@ -1030,7 +1026,6 @@
       <li><strong>Update</strong> — refresh the blue proposal.</li>
     </ul>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span>Always check that text is legible, especially over stippled areas. Use the <strong>Mask</strong> tool to limit the embossed area.</span>
     </div>
   </section>
@@ -1049,7 +1044,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-warning">
-      <span class="callout-icon">&#9888;</span>
       <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted. Use <strong>Select Wax</strong> to selectively convert partial wax to blockout first.</span>
     </div>
   </section>
@@ -1123,7 +1117,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-info">
-      <span class="callout-icon">&#9432;</span>
       <span><strong>Support bar placement:</strong> Lower partials — one bar between posterior ends. Upper partials — two bars: one posterior-to-posterior, one from the midpoint of the posterior bar to the most anterior point.</span>
     </div>
   </section>
@@ -1174,7 +1167,6 @@
       </tbody>
     </table></section>
     <div class="callout callout-tip">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Cut View Hotkeys:</strong> Slider to change slice position. Left-drag for ruler (<kbd>Ctrl</kbd> for multiple). Right-drag to rotate cut plane. Right+Left to move cut plane. Scroll to zoom.</span>
     </div>
   </section>
@@ -1235,7 +1227,6 @@
       <li><strong>Save Relief with Scene</strong> — persist relief to blockout on save.</li>
     </ul>
     <div class="callout callout-info">
-      <span class="callout-icon">&#128161;</span>
       <span><strong>Congratulations!</strong> Once the build is complete, the resulting partial framework mesh is displayed over a transparent model so you can inspect the underside. Output files are saved to the project directory.</span>
     </div>
   </section>
