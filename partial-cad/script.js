@@ -381,7 +381,8 @@ document.addEventListener('DOMContentLoaded', () => {
       chip.setAttribute('aria-pressed', String(selected));
     });
     filterToolCards();
-    document.querySelector('#tool-explorer')?.scrollIntoView({
+    const guideExplorer = document.querySelector('.tool-explorer');
+    guideExplorer?.scrollIntoView({
       behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
       block: 'start',
     });
