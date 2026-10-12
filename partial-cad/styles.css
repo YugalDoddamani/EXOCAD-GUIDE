@@ -1035,7 +1035,7 @@ kbd {
 
 
 /* Problem-first PartialCAD help interface */
-.help-home,.tool-explorer,.reference-intro{max-width:1160px;margin:0 auto 44px;scroll-margin-top:calc(var(--header-h) + 22px)}
+.help-home,.tool-explorer,.reference-intro{max-width:1160px;margin:0 auto 44px;}
 .help-home{padding:42px clamp(18px,4vw,52px) 30px;border:1px solid #d4dee6;border-radius:12px;background:#fff}
 .help-home-copy{max-width:760px}
 .eyebrow,.section-kicker,.task-shortcuts-label{margin:0 0 10px;color:#60778a;font:600 10px var(--font-utility);letter-spacing:.11em}
@@ -1078,7 +1078,7 @@ kbd {
 .reference-intro{padding:20px 0;border-top:1px solid #d7e0e7}
 .reference-intro p:last-child{max-width:75ch;color:#6a7e8d;font-size:12px}
 .callout-icon{display:none!important}
-.tool-section{scroll-margin-top:calc(var(--header-h) + 24px)}
+.tool-section{}
 @media(min-width:921px){.main-content{margin-left:var(--sidebar-w)}}
 @media(max-width:1180px){.tool-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){
@@ -1298,3 +1298,7 @@ body{background:#fff9ef;color:#171717}.site-header{background:#fff9ef;color:#171
   line-height: 1.5;
   font-weight: 600;
 }
+
+
+/* Small practical notes added without changing the guide's overall layout. */
+.use-this,.common-mistake{margin:10px 0;padding:10px 12px;border-left:3px solid #35b8a4;background:#f5f3e9;border-radius:0 8px 8px 0;font-size:13px;line-height:1.65}.common-mistake{border-left-color:#ffb44a}
