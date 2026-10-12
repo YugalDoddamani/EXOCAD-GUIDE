@@ -112,13 +112,21 @@ document.addEventListener('DOMContentLoaded', () => {
     return href.startsWith('#') ? document.getElementById(href.slice(1)) : null;
   };
 
+  // Tool copy is static after page load. Cache it once instead of reading every full
+  // reference section on each keypress, which keeps search responsive on long pages.
+  const cardFieldCache = new WeakMap();
   const getCardFields = (card) => {
+    const cached = cardFieldCache.get(card);
+    if (cached) return cached;
     const section = getSectionForCard(card);
-    const title = normalizeText(card.querySelector('b')?.textContent || '');
-    const aliasesText = normalizeText(card.dataset.search || '');
-    const summary = normalizeText(card.querySelector('p')?.textContent || '');
-    const body = normalizeText(section?.textContent || '');
-    return { title, aliasesText, summary, body };
+    const fields = {
+      title: normalizeText(card.querySelector('b')?.textContent || ''),
+      aliasesText: normalizeText(card.dataset.search || ''),
+      summary: normalizeText(card.querySelector('p')?.textContent || ''),
+      body: normalizeText(section?.textContent || '')
+    };
+    cardFieldCache.set(card, fields);
+    return fields;
   };
 
   const getScore = (card, query, expanded) => {
@@ -256,10 +264,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const scored = toolCards.map((card, index) => ({ card, index, ...getScore(card, query, expanded) }));
     const waxIntent = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
     const waxPriority = new Set(['Select Wax', 'Clone (Fill Wax)', 'Smooth']);
-    const visible = scored.filter(({ card }) => {
+    const visible = scored.filter(({ card, score }) => {
       const stageMatch = activeFilter === 'all' || card.dataset.stage === activeFilter;
       const waxMatch = !waxIntent || waxPriority.has(card.querySelector('b')?.textContent.trim());
-      return stageMatch && waxMatch && (!query || getScore(card, query, expanded).score > 0);
+      return stageMatch && waxMatch && (!query || score > 0);
     }).sort((a, b) => (b.score - a.score) || (a.index - b.index));
     const visibleSet = new Set(visible.map((item) => item.card));
     visible.forEach(({ card, reason }) => {
