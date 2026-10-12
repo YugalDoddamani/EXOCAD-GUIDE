@@ -41,3 +41,7 @@ The reference section should use the same ID as the card's `href`. Put practical
 ## Attribution and images
 
 Text and technical notes are adapted from the [exocad Wiki](https://wiki.exocad.com/). Check the source site's terms before reusing its screenshots or images. Prefer screenshots captured from your own licensed software session, with patient-identifying information removed.
+
+## Credits
+
+Designed and developed by [Muskan K](https://muskankgupta.vercel.app/) and [Yugal Doddamani](https://yugaldoddamani.pages.dev/). Source of knowledge: [exocad Wiki](https://wiki.exocad.com/).
