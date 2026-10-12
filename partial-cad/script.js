@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let collapsedBeforeSearch = null;
   let activeLinkFrame = null;
 
-  const normalizeText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\\s-]/g, ' ').replace(/\\s+/g, ' ').trim();
+  const normalizeText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\s-]/g, ' ').replace(/\s+/g, ' ').trim();
   const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
   const navSearchIndex = navLinks.map((link) => {
     const target = sectionForLink(link);
@@ -214,13 +214,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const filterToolCards = (updateUrl = true) => {
-    const rawQuery = toolSearch?.value ?? searchInput?.value ?? '';
+    const rawQuery = mainToolSearch?.value ?? searchInput?.value ?? '';
     const query = normalizeText(rawQuery);
     const expanded = queryExpansion(rawQuery);
     const scored = toolCards.map((card, index) => ({ card, index, ...getScore(card, query, expanded) }));
+    const waxIntent = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
+    const waxPriority = new Set(['Select Wax', 'Clone (Fill Wax)', 'Smooth']);
     const visible = scored.filter(({ card }) => {
       const stageMatch = activeFilter === 'all' || card.dataset.stage === activeFilter;
-      return stageMatch && (!query || getScore(card, query, expanded).score > 0);
+      const waxMatch = !waxIntent || waxPriority.has(card.querySelector('b')?.textContent.trim());
+      return stageMatch && waxMatch && (!query || getScore(card, query, expanded).score > 0);
     }).sort((a, b) => (b.score - a.score) || (a.index - b.index));
     const visibleSet = new Set(visible.map((item) => item.card));
     visible.forEach(({ card, reason }) => {
@@ -254,8 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (waxRescue) {
-      const waxQuery = /remove wax|removing wax|cut off wax|cut wax|wax removal|take off wax|shave wax/.test(query);
-      waxRescue.hidden = !waxQuery;
+      waxRescue.hidden = !waxIntent;
     }
     if (updateUrl) syncQueryToUrl(rawQuery.trim());
   };
