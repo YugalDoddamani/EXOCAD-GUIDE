@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuButton = document.querySelector('.hamburger');
   const overlay = document.querySelector('.overlay');
   const searchInput = document.querySelector('.search-input');
-  const toolSearch = document.querySelector('#tool-search');
   const searchStatus = document.querySelector('.search-status');
   const backToTop = document.querySelector('.back-to-top');
   const printButton = document.querySelector('.print-btn');
@@ -13,10 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = [...document.querySelectorAll('.nav-links a[href^="#"]')];
   const sections = [...document.querySelectorAll('.help-home[id], .hero[id], .tool-section[id]')];
   const mobileNavigation = window.matchMedia('(max-width: 920px)');
-
-  const sectionForLink = (link) => document.getElementById(link.hash.slice(1));
-  const normalizeText = (value) => value.toLocaleLowerCase().replace(/\s+/g, ' ').trim();
-  let activeLinkFrame = null;
 
   // ---------- MOBILE NAVIGATION ----------
   const setNavigationOpen = (open, returnFocus = false) => {
@@ -127,6 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!query) return { score: 0, reason: '' };
     const fields = getCardFields(card);
     const phrases = [query, ...expanded];
+    const combined = [fields.title, fields.aliasesText, fields.summary, fields.body].join(' ');
+    const phraseMatch = phrases.some((phrase) => phrase && combined.includes(phrase));
+    const terms = query.split(' ').filter(Boolean);
+    const allTermsMatch = terms.every((term) => combined.includes(term));
+    if (!phraseMatch && !allTermsMatch) return { score: 0, reason: '' };
     let score = 0;
     let reason = '';
     if (fields.title === query) { score += 140; reason = 'Exact tool name'; }
@@ -135,7 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
       score += 65;
       if (!reason) reason = 'Related task or synonym';
     }
-    const terms = query.split(' ').filter(Boolean);
     const titleMatches = terms.filter((term) => fields.title.includes(term)).length;
     score += titleMatches * 24;
     const aliasMatches = terms.filter((term) => fields.aliasesText.includes(term)).length;
@@ -374,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const itemRect = link.getBoundingClientRect();
           const sideRect = sidebar.getBoundingClientRect();
           if (itemRect.top < sideRect.top + 70 || itemRect.bottom > sideRect.bottom - 24) {
-            link.scrollIntoView({ block: 'nearest', behavior: 'auto' });
+            sidebar.scrollTo({ top: sidebar.scrollTop + itemRect.top - sideRect.top - 90, behavior: 'auto' });
           }
         }
       } else {
