@@ -246,6 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const toolStatus = document.querySelector('#tool-search-status');
   const toolEmpty = document.querySelector('#tool-empty');
   const clearToolSearch = document.querySelector('#clear-tool-search');
+  const instantResults = document.querySelector('#instant-search-results');
+  const folderButtons = [...document.querySelectorAll('[data-folder-filter]')];
+  const categoryShelf = document.querySelector('.category-shelf');
   let activeFilter = 'all';
 
   const normalizeToolText = (value) => (value || '').normalize('NFKD').toLocaleLowerCase().replace(/[^a-z0-9+.#\s-]/g, ' ').replace(/\s+/g, ' ').trim();
@@ -283,6 +286,45 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
     if (toolEmpty) toolEmpty.hidden = visible !== 0;
+
+    // Keep live results directly under the search field so users never need to scroll to find them.
+    if (instantResults) {
+      instantResults.replaceChildren();
+      instantResults.hidden = !terms.length;
+      if (categoryShelf) categoryShelf.hidden = Boolean(terms.length);
+      if (terms.length) {
+        const matches = toolCards.filter((card) => !card.hidden);
+        if (!matches.length) {
+          const empty = document.createElement('p');
+          empty.className = 'instant-empty';
+          empty.textContent = 'No matches yet. Try a tool name like “Smooth” or a task like “remove wax”.';
+          instantResults.append(empty);
+        } else {
+          matches.slice(0, 8).forEach((card) => {
+            const link = document.createElement('a');
+            link.className = 'instant-result';
+            link.href = card.getAttribute('href');
+            link.setAttribute('role', 'option');
+            const title = document.createElement('strong');
+            title.textContent = card.querySelector('b')?.textContent?.trim() || card.textContent.trim();
+            const description = document.createElement('span');
+            description.textContent = card.querySelector('p')?.textContent?.trim() || 'Open this guide entry.';
+            const arrow = document.createElement('span');
+            arrow.className = 'instant-result-arrow';
+            arrow.setAttribute('aria-hidden', 'true');
+            arrow.textContent = '↗';
+            link.append(title, description, arrow);
+            instantResults.append(link);
+          });
+          if (matches.length > 8) {
+            const more = document.createElement('p');
+            more.className = 'instant-more';
+            more.textContent = 'Showing 8 of ' + matches.length + ' matches. Scroll down for the full list.';
+            instantResults.append(more);
+          }
+        }
+      }
+    }
   };
 
   const setToolFilter = (filter) => {
@@ -296,6 +338,15 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   filterButtons.forEach((button) => button.addEventListener('click', () => setToolFilter(button.dataset.filter)));
+
+  folderButtons.forEach((button) => button.addEventListener('click', () => {
+    if (toolSearch) toolSearch.value = '';
+    setToolFilter(button.dataset.folderFilter);
+    document.querySelector('#tool-explorer')?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  }));
 
   taskButtons.forEach((button) => button.addEventListener('click', () => {
     if (toolSearch) toolSearch.value = button.dataset.query || button.textContent.trim();
