@@ -8,6 +8,8 @@
  <meta property="og:title" content="PartialCAD Practical Guide">
  <meta property="og:description" content="Find the PartialCAD tool or workflow step that solves the problem you are stuck on.">
  <meta property="og:type" content="website">
+ <meta property="og:image" content="https://exocad-guide.pages.dev/partial-cad/og-preview.png">
+ <link rel="canonical" href="https://exocad-guide.pages.dev/partial-cad/">
  <link rel="icon" type="image/svg+xml" href="favicon.svg">
  <link rel="stylesheet" href="styles.css">
 </head>
@@ -31,8 +33,9 @@
 <nav class="sidebar" id="guide-nav" aria-label="PartialCAD guide navigation">
  <!-- Getting Started -->
  <div class="nav-section">
- <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-getting-started">Getting Started<span class="chevron" aria-hidden="true">&#9660;</span></button>
+ <button class="nav-section-title" type="button" aria-expanded="true" aria-controls="nav-getting-started">Basics<span class="chevron" aria-hidden="true">&#9660;</span></button>
  <ul class="nav-links" id="nav-getting-started">
+ <li><a href="learn/index.html">New to PartialCAD?</a></li>
  <li><a href="#overview">Learning home</a></li>
  <li><a href="#tool-explorer">Find a tool</a></li>
  <li><a href="#requirements">Hardware Requirements</a></li>
@@ -134,11 +137,12 @@
  <section class="category-shelf" aria-label="Browse guide categories">
  <div class="category-shelf-heading"><h2>Browse by what you're doing</h2><span>Pick a folder to explore</span></div>
  <div class="folder-grid">
- <button class="folder-card folder-yellow" type="button" data-folder-filter="prepare"><span class="folder-icon" aria-hidden="true">↗</span><strong>Getting started</strong><small>Setup, scans and first steps</small><span class="folder-open">Open folder ↗</span></button>
+ <button class="folder-card folder-yellow" type="button" data-folder-filter="prepare"><span class="folder-icon" aria-hidden="true">↗</span><strong>Preparation</strong><small>Setup, scans and first steps</small><span class="folder-open">Open folder ↗</span></button>
  <button class="folder-card folder-pink" type="button" data-folder-filter="analyse"><span class="folder-icon" aria-hidden="true">⌕</span><strong>Survey &amp; blockout</strong><small>Insertion path and undercuts</small><span class="folder-open">Open folder ↗</span></button>
  <button class="folder-card folder-green" type="button" data-folder-filter="construct"><span class="folder-icon" aria-hidden="true">✳</span><strong>Build framework</strong><small>Connectors, bars and mesh</small><span class="folder-open">Open folder ↗</span></button>
- <button class="folder-card folder-purple" type="button" data-folder-filter="refine"><span class="folder-icon" aria-hidden="true">✎</span><strong>Edit &amp; refine</strong><small>Wax shaping and surface tools</small><span class="folder-open">Open folder ↗</span></button>
- <button class="folder-card folder-orange" type="button" data-folder-filter="finish"><span class="folder-icon" aria-hidden="true">✓</span><strong>Finish &amp; export</strong><small>Assembly, saving and output</small><span class="folder-open">Open folder ↗</span></button>
+ <button class="folder-card folder-purple" type="button" data-folder-filter="refine"><span class="folder-icon" aria-hidden="true">✎</span><strong>Edit wax</strong><small>Wax shaping and surface tools</small><span class="folder-open">Open folder ↗</span></button>
+ <button class="folder-card folder-orange" type="button" data-folder-filter="finish"><span class="folder-icon" aria-hidden="true">✓</span><strong>Assemble &amp; export</strong><small>Assembly, saving and output</small><span class="folder-open">Open folder ↗</span></button>
+  <a class="folder-card folder-teal" href="learn/index.html"><span class="folder-icon" aria-hidden="true">↗</span><strong>New to PartialCAD?</strong><small>Learn the whole process in order</small><span class="folder-open">Start learning ↗</span></a>
  </div>
  </section>
 
@@ -158,11 +162,12 @@
  </div>
  </div>
  <p id="tool-search-status" role="status" class="explorer-status">Showing all tools. Search by problem, tool, setting or shortcut.</p>
+  <div class="glossary-search-results" id="glossary-search-results" hidden><h3>Glossary matches</h3><div class="glossary-search-list" id="glossary-search-list"></div></div>
  <section class="wax-rescue" id="wax-removal-rescue" hidden aria-labelledby="wax-rescue-title">
  <div class="wax-rescue-heading"><p class="section-kicker">COMMON PROBLEM</p><h3 id="wax-rescue-title">I need to remove wax</h3><p>Start with the most targeted option. If that does not suit the shape you need, try the next method.</p></div>
  <ol class="wax-rescue-steps">
  <li><a href="#select-wax"><span class="rescue-step-number">1</span><span><strong>Select Wax → Cut Selection</strong><small>Use this when you need to remove a defined area of wax precisely.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
- <li><a href="#clone"><span class="rescue-step-number">2</span><span><strong>Clone (Fill Wax) + Shift</strong><small>Use this when you need to remove material by applying the negative thickness behaviour described in the tool instructions. Ctrl is used to add on top.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
+ <li><a href="#clone"><span class="rescue-step-number">2</span><span><strong>Clone (Fill Wax) + Shift</strong><small>Hold Shift while using Clone to remove a fixed thickness of wax. Hold Ctrl to add on top.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
  <li><a href="#smooth"><span class="rescue-step-number">3</span><span><strong>Smooth → Smudge mode</strong><small>Use this for small local corrections when you want to reshape the wax instead of cutting a clean boundary.</small></span><span class="rescue-arrow" aria-hidden="true">→</span></a></li>
  </ol>
  </section>
@@ -236,7 +241,7 @@
 <a class="tool-card" data-stage="construct" data-search="clone fill wax add wax remove wax cut off wax cut wax subtract wax fill wax clone thickness shift ctrl cut material remove material wax removal shave wax" href="#clone">
  <span class="tool-card-meta">BUILD<kbd>C</kbd></span>
  <b>Clone (Fill Wax)</b>
- <p>Use Ctrl to add wax on top; use Shift for the remove-wax behaviour described in the reference instructions.</p>
+ <p>Use Ctrl to add wax on top; Hold Shift while using Clone to remove a fixed thickness of wax; hold Ctrl to add on top of existing wax.</p>
  <span class="tool-card-action">Read steps and settings <span aria-hidden="true">→</span></span>
  </a>
 <a class="tool-card" data-stage="construct" data-search="finish lines finish line boundary margin draw finish line" href="#finish-lines">
@@ -355,13 +360,13 @@
 
  <section class="tool-section glossary-section" id="glossary">
  <h2>Plain-language glossary</h2>
- <p>Quick meanings for terms that appear throughout PartialCAD. Search any of these words using either search box.</p>
+ <p>Quick meanings for terms that appear throughout PartialCAD. Type any of these words into the search box at the top of the page.</p>
  <dl class="glossary-list">
  <div id="glossary-blockout"><dt>Blockout</dt><dd>Material added to fill unwanted undercuts so the framework can follow its intended path of insertion.</dd></div>
  <div id="glossary-refractory-model"><dt>Refractory model</dt><dd>A duplicate model made from a heat-resistant material for fabricating a cast framework.</dd></div>
- <div id="glossary-riser"><dt>Riser</dt><dd>A raised feature or channel used in a manufacturing process; check the specific fabrication workflow before changing it.</dd></div>
- <div id="glossary-relief-wax"><dt>Relief wax</dt><dd>Space intentionally created between the framework and tissue-bearing areas to reduce pressure.</dd></div>
- <div id="glossary-tissue-stop"><dt>Tissue stop</dt><dd>A small contact feature that helps locate or stabilize a framework against the model during fabrication.</dd></div>
+ <div id="glossary-riser"><dt>Riser</dt><dd>A raised support or feed feature used in some manufacturing processes. In a dental framework workflow, do not assume a visible raised feature is a riser; confirm the term and purpose in the specific CAM or fabrication process.</dd></div>
+ <div id="glossary-relief-wax"><dt>Relief wax</dt><dd>The planned space between the refractory surface and the underside of the mesh or framework. In the Mesh settings, Relief Wax is the distance from the refractory surface to the bottom of the mesh.</dd></div>
+ <div id="glossary-tissue-stop"><dt>Tissue stop</dt><dd>A small intentional contact area on the framework that rests against the cast or tissue surface. It helps control seating and maintain the planned position during processing. Its location and size should follow the prescribed design.</dd></div>
  <div id="glossary-draft-angle"><dt>Draft angle</dt><dd>The angle that affects whether a surface can be withdrawn along the chosen insertion direction.</dd></div>
  <div id="glossary-insertion-path"><dt>Insertion path</dt><dd>The direction the partial framework is intended to move into and out of the mouth.</dd></div>
  <div id="glossary-undercut"><dt>Undercut</dt><dd>A recessed area relative to the selected insertion path; it may provide clasp retention or require blockout.</dd></div>
@@ -376,7 +381,7 @@
  <!-- ==================== REQUIREMENTS ==================== -->
  <section class="tool-section" id="requirements">
  <h2>Hardware &amp; Software Requirements</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
- <p>PartialCAD has <strong>stronger hardware requirements</strong> for the graphics card than the classic exocad DentalCAD a lot of data processing is done on the GPU.</p>
+ <p>PartialCAD has <strong>stronger hardware requirements</strong>: for the graphics card than the classic exocad DentalCAD, because a lot of data processing is done on the GPU.</p>
  <ul>
  <li>A dedicated NVIDIA or AMD GPU with up-to-date drivers</li>
  <li>Minimum 8 GB system RAM (16 GB+ recommended)</li>
@@ -466,7 +471,7 @@
  <!-- ==================== WORKFLOW OVERVIEW ==================== -->
  <section class="tool-section" id="workflow">
  <h2>Workflow Overview</h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
- <p>PartialCAD uses a guided, wizard-based workflow. Click <strong>Next</strong> at the bottom of each step to proceed. Additional tools are available via the <strong>Expert</strong> icon on the right side of the screen.</p>
+ <p>PartialCAD uses a guided, wizard-based workflow. Click <strong>Next</strong>: at the bottom of each step to proceed. Additional tools are available via the <strong>Expert</strong>: icon on the right side of the screen.</p>
  <h3>Recommended Workflow Order</h3>
  <ol class="workflow-flow" aria-label="Recommended workflow sequence">
  <li><a href="#trim-scan">Trim Scan</a></li>
@@ -493,8 +498,8 @@
  <li>Complete the prescription in DentalDB (client and patient name are required).</li>
  <li>Define one or more "Partial framework" teeth on one arch.</li>
  <li>For antagonist use, set up "Antagonist" in the opposing arch.</li>
- <li>Partial Frameworks can only be designed in one arch at a time set up two cases for upper and lower.</li>
- <li>Scan as usual, then click <strong>Design</strong> or <strong>PartialCAD</strong> in the database to launch the CAD application.</li>
+ <li>Partial Frameworks can only be designed in one arch at a time, so set up two cases for upper and lower.</li>
+ <li>Scan as usual, then click <strong>Design</strong>: or <strong>PartialCAD</strong>: in the database to launch the CAD application.</li>
  </ol>
  </section>
 
@@ -530,10 +535,10 @@
  <p>Specify the insertion direction of the partial relative to the scan data. The software displays undercut colors so you can evaluate and adjust the path of insertion.</p>
  <h3>Setting the Insertion Path</h3>
  <ul>
- <li><strong>Left-click</strong> on the scan the insertion arrow changes from white to red and the cursor becomes a 4-arrow cross.</li>
- <li><strong>Left-drag</strong> to rotate the model to the desired insertion path. Undercut colors update on release.</li>
- <li><strong>Set From View</strong> rotate the model to the desired insertion angle and click this button.</li>
- <li><strong>Default Insertion</strong> reset to the original Z-axis.</li>
+ <li><strong>Left-click</strong>: on the scan. The insertion arrow changes from white to red and the cursor becomes a 4-arrow cross.</li>
+ <li><strong>Left-drag</strong>: to rotate the model to the desired insertion path. Undercut colors update on release.</li>
+ <li><strong>Set From View</strong>: rotate the model to the desired insertion angle and click this button.</li>
+ <li><strong>Default Insertion</strong>: reset to the original Z-axis.</li>
  </ul>
  <h3>Blockout Parameters</h3>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Survey / Blockout Model"><table class="param-table">
@@ -556,16 +561,16 @@
  <p>Expose undercuts in the blockout wax to define where retention elements (clasps) will go. The cursor is a ball-brush that you adjust with <kbd>Q</kbd>/<kbd>W</kbd>.</p>
  <h3>Smudge (Remove Blockout)</h3>
  <ul>
- <li><strong>Left-click</strong> on blockout wax to remove it, exposing undercut color depth from Survey.</li>
+ <li><strong>Left-click</strong>: on blockout wax to remove it, exposing undercut color depth from Survey.</li>
  <li>Keep the cursor moving in small circles or zig-zag for maximum effectiveness.</li>
- <li>Adjust <strong>Tool Size</strong> and <strong>Wax Hardness</strong> sliders to control area and sensitivity.</li>
+ <li>Adjust <strong>Tool Size</strong>: and <strong>Wax Hardness</strong>: sliders to control area and sensitivity.</li>
  </ul>
  <h3>Smooth Blockout</h3>
  <ul>
- <li><strong>Normal</strong> preserves blockout wax while smoothing.</li>
- <li><strong>Add</strong> adds blockout wax during smoothing.</li>
- <li><strong>Remove</strong> removes blockout wax during smoothing.</li>
- <li><strong>Smooth Level</strong> adjusts smoothing strength within the tool area.</li>
+ <li><strong>Normal</strong>: preserves blockout wax while smoothing.</li>
+ <li><strong>Add</strong>: adds blockout wax during smoothing.</li>
+ <li><strong>Remove</strong>: removes blockout wax during smoothing.</li>
+ <li><strong>Smooth Level</strong>: adjusts smoothing strength within the tool area.</li>
  </ul>
  <h3>Additional Relief Wax</h3>
  <p>Stone models have sharp edges that scanners round off. If the partial doesn't seat properly, add a light blockout layer using Smooth in Add mode at moderate Smooth Level on sharp edges (rest seats, inter-proximal areas, bead line internal edges).</p>
@@ -591,7 +596,7 @@
  </tbody>
  </table></section>
  <div class="callout callout-warning">
- <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted, including designed partial wax. Use <strong>Select Wax</strong> to selectively convert first.</span>
+ <span>When converting partial wax to blockout, <strong>ALL</strong>: wax will be converted, including designed partial wax. Use <strong>Select Wax</strong>: to selectively convert first.</span>
  </div>
  </section>
 
@@ -601,7 +606,7 @@
  <p>Import and manage mesh objects in the current scene. PartialCAD auto-imports all mesh objects defined in DentalDB and designed in DentalCAD.</p>
  <h3>Importing Parts</h3>
  <ul>
- <li>Click <strong>Import</strong> to add an arbitrary mesh object file (.stl, .ply, etc.). The object must be pre-positioned relative to the scan data.</li>
+ <li>Click <strong>Import</strong>: to add an arbitrary mesh object file (.stl, .ply, etc.). The object must be pre-positioned relative to the scan data.</li>
  <li>Each imported part appears in the <strong>Group Selector</strong>. Right-click to select; use <kbd>Ctrl</kbd>+right-click for multi-select.</li>
  </ul>
  <h3>Part Treatment Modes</h3>
@@ -614,7 +619,7 @@
  <tr><td><strong>Reference</strong></td><td>Visualization only (default for Partial Framework parts in DentalDB).</td></tr>
  <tr><td><strong>Non-Editable</strong></td><td>Add to partial framework output as-is (default for DentalCAD-designed parts).</td></tr>
  <tr><td><strong>Inside Surface to Refractory</strong></td><td>Convert the inside surface to refractory.</td></tr>
- <tr><td><strong>Solid Wax</strong></td><td>Convert to editable wax generally creates watertight output.</td></tr>
+ <tr><td><strong>Solid Wax</strong></td><td>Convert to editable wax. This generally creates watertight output.</td></tr>
  <tr><td><strong>Hollow Wax</strong></td><td>Make the wax hollow (useful for additive manufacturing).</td></tr>
  <tr><td><strong>Hollow Thickness</strong></td><td>Adjust minimum thickness of the hollow wax.</td></tr>
  <tr><td><strong>Extend to Bottom</strong></td><td>Keep bottom open and extend with negative draft (-10.00).</td></tr>
@@ -623,7 +628,7 @@
  <tr><td><strong>Fill Imported Part to Bottom</strong></td><td>Close the bottom of the refractory (useful when scanning a primary telescope).</td></tr>
  </tbody>
  </table></section>
- <p>Click <strong>Apply</strong> for a single part or <strong>Apply All</strong> for all parts simultaneously.</p>
+ <p>Click <strong>Apply</strong>: for a single part or <strong>Apply All</strong>: for all parts simultaneously.</p>
  </section>
 
  <!-- ============================================================ -->
@@ -648,9 +653,9 @@
  </div>
  <h3>Workflow Variations</h3>
  <ul>
- <li><strong>Upper Partials →</strong> Next: Mesh &amp; Connector</li>
- <li><strong>Lower Partials →</strong> Next: Bar</li>
- <li><strong>Flexible Partials →</strong> Next: Save for Build</li>
+ <li><strong>Upper Partials →</strong>: Next: Mesh &amp; Connector</li>
+ <li><strong>Lower Partials →</strong>: Next: Bar</li>
+ <li><strong>Flexible Partials →</strong>: Next: Save for Build</li>
  </ul>
  </section>
 
@@ -662,21 +667,21 @@
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Draw Curves (Expert Mode)"><table class="param-table">
  <thead><tr><th>Option</th><th>Description</th></tr></thead>
  <tbody>
- <tr><td><strong>Fit to Top Surface</strong></td><td>Curve fits to the top-most surface (scan data, blockout, or wax). When un-selected, the curve floats between control points useful for lingual bars and finish lines above rough surfaces.</td></tr>
+ <tr><td><strong>Fit to Top Surface</strong></td><td>Curve fits to the top-most surface (scan data, blockout, or wax). When unselected, the curve floats between control points. This is useful for lingual bars and finish lines above rough surfaces.</td></tr>
  <tr><td><strong>Fit to Refractory</strong></td><td>Curve fits to the top-most surface of scan data or blockout, but beneath partial wax.</td></tr>
  <tr><td><strong>Fit to Mesh</strong></td><td>Draws curves on scan data. Used to define virtual bead line prior to Survey.</td></tr>
  </tbody>
  </table></section>
  <h3>Special Modes</h3>
  <ul>
- <li><strong>Two Point</strong> for straight, un-fit lines. Click once to start, once to end. Convenient for support bars.</li>
- <li><strong>T-Junction</strong> connect curves at a "T" junction by selecting a point on an existing curve. Used for approach-arm clasps and multiple support bars.</li>
- <li><strong>Open Loop</strong> prevents closed curves from being created. Useful for clasps, finish lines, and support bars.</li>
+ <li><strong>Two Point</strong>: for straight, un-fit lines. Click once to start, once to end. Convenient for support bars.</li>
+ <li><strong>T-Junction</strong>: connect curves at a "T" junction by selecting a point on an existing curve. Used for approach-arm clasps and multiple support bars.</li>
+ <li><strong>Open Loop</strong>: prevents closed curves from being created. Useful for clasps, finish lines, and support bars.</li>
  </ul>
  <h3>Clasp Drawing Patterns</h3>
  <ul>
- <li><strong>Ring clasps</strong> single open curve, drawn from max support point to tip.</li>
- <li><strong>Akers clasps</strong> single curve (tip-to-tip) or 2 curves (each from guide plane to tip).</li>
+ <li><strong>Ring clasps</strong>: single open curve, drawn from max support point to tip.</li>
+ <li><strong>Akers clasps</strong>: single curve (tip-to-tip) or 2 curves (each from guide plane to tip).</li>
  <li><strong>"J" clasps</strong> 2 curves: approach arm from solid support to transition, then from transition end to clasp tip.</li>
  <li><strong>"T" clasps</strong> 2 or 3 curves: approach arm first, then tip-to-tip, or two curves from transition to each tip.</li>
  </ul>
@@ -754,7 +759,7 @@
  <h3>Graphic Interacter</h3>
  <p>Click and drag points on the interacter to adjust <strong>Pattern Position</strong>, <strong>Pattern Orientation</strong>, and <strong>Hole Size</strong> (drag the arrow tip).</p>
  <div class="callout callout-tip">
- <span>To fill a particular mesh hole, use <strong>Clone</strong> at mesh thickness. To add a tissue stop, use <strong>Select Wax</strong> to convert an area of the mesh riser from blockout to wax.</span>
+ <span>To fill a particular mesh hole, use <strong>Clone</strong>: at mesh thickness. To add a tissue stop, use <strong>Select Wax</strong>: to convert an area of the mesh riser from blockout to wax.</span>
  </div>
  </section>
 
@@ -781,8 +786,8 @@
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table 2: Bar (Lingual Bar)"><table class="param-table">
  <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
  <tbody>
- <tr><td><strong>Thickness / Width</strong></td><td>Basic bar dimensions. <strong>Fixed Aspect</strong> locks them equal.</td></tr>
- <tr><td><strong>Width 1 / Width 2</strong></td><td>Taper control for each end. <strong>Swap Ends</strong> reverses which end each value applies to.</td></tr>
+ <tr><td><strong>Thickness / Width</strong></td><td>Basic bar dimensions. <strong>Fixed Aspect</strong>: locks them equal.</td></tr>
+ <tr><td><strong>Width 1 / Width 2</strong></td><td>Taper control for each end. <strong>Swap Ends</strong>: reverses which end each value applies to.</td></tr>
  <tr><td><strong>Offset Above Surface</strong></td><td>Increase thickness to offset bar above the refractory model.</td></tr>
  <tr><td><strong>Depth Below Surface</strong></td><td>Extend thickness below bar surface so the bottom smoothly intersects connected wax areas.</td></tr>
  </tbody>
@@ -795,9 +800,9 @@
  <p>Apply rest seats, distal guide planes, and add material around the mesh to receive finish lines. The Clone tool adds a fixed thickness of wax.</p>
  <h3>Mouse Operations</h3>
  <ul>
- <li><strong>Left-click &amp; drag</strong> add Clone wax.</li>
- <li><strong>Shift + Clone</strong> remove a fixed thickness of material.</li>
- <li><strong>Ctrl + Clone</strong> add on top of existing wax.</li>
+ <li><strong>Left-click &amp; drag</strong>: add Clone wax.</li>
+ <li><strong>Shift + Clone</strong>: remove a fixed thickness of material.</li>
+ <li><strong>Ctrl + Clone</strong>: add on top of existing wax.</li>
  <li><kbd>1</kbd>–<kbd>5</kbd> quickly switch between preset thicknesses.</li>
  </ul>
  <h3>Parameters</h3>
@@ -837,9 +842,9 @@
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table 2: Finish Lines"><table class="param-table">
  <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
  <tbody>
- <tr><td><strong>Thickness / Width</strong></td><td>Basic dimensions. <strong>Fixed Aspect</strong> maintains constant proportion.</td></tr>
- <tr><td><strong>Width 1 / Width 2</strong></td><td>Taper control for each end of the finish line. <strong>Swap Ends</strong> reverses references.</td></tr>
- <tr><td><strong>Depth Below Surface</strong></td><td>Height of the base adjust so the bottom completely intersects mesh/clone/major connector areas.</td></tr>
+ <tr><td><strong>Thickness / Width</strong></td><td>Basic dimensions. <strong>Fixed Aspect</strong>: maintains constant proportion.</td></tr>
+ <tr><td><strong>Width 1 / Width 2</strong></td><td>Taper control for each end of the finish line. <strong>Swap Ends</strong>: reverses references.</td></tr>
+ <tr><td><strong>Depth Below Surface</strong></td><td>Height of the base. Adjust it so the bottom completely intersects mesh, clone, or major connector areas.</td></tr>
  </tbody>
  </table></section>
  <p>Left-click edit points on the curve to adjust the position of the finish line. Once satisfied, click Apply and repeat for each finish line.</p>
@@ -862,12 +867,12 @@
  </table></section>
  <h3>Clasp Profile Controls</h3>
  <ul>
- <li><strong>Profiles [6]</strong> select from preset clasp profiles.</li>
- <li><strong>Profile Editor [7]</strong> create or edit custom profiles.</li>
- <li><strong>Flip [8]</strong> mirror top to bottom along the midpoint.</li>
- <li><strong>Rotate [9]</strong> rotate 180° (inside and outside become reversed).</li>
- <li><strong>Settings [10]</strong> adjust taper and offset.</li>
- <li><strong>Clasp Smoothing [11]</strong> higher value = smoother surface.</li>
+ <li><strong>Profiles [6]</strong>: select from preset clasp profiles.</li>
+ <li><strong>Profile Editor [7]</strong>: create or edit custom profiles.</li>
+ <li><strong>Flip [8]</strong>: mirror top to bottom along the midpoint.</li>
+ <li><strong>Rotate [9]</strong>: rotate 180° (inside and outside become reversed).</li>
+ <li><strong>Settings [10]</strong>: adjust taper and offset.</li>
+ <li><strong>Clasp Smoothing [11]</strong>: higher value = smoother surface.</li>
  </ul>
  <h3>Clasp Settings Dialog</h3>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table 2: Apply Clasps"><table class="param-table">
@@ -875,14 +880,14 @@
  <tbody>
  <tr><td><strong>Thickness [1]</strong></td><td>Basic clasp thickness from the model.</td></tr>
  <tr><td><strong>Width [2]</strong></td><td>Width along the surface of the model.</td></tr>
- <tr><td><strong>Width 1 / Width 2 [3,4]</strong></td><td>Taper control define specific widths along the curve. Uncheck to disable tapering.</td></tr>
+ <tr><td><strong>Width 1 / Width 2 [3,4]</strong></td><td>Taper control: define specific widths along the curve. Uncheck to disable tapering.</td></tr>
  <tr><td><strong>Swap Ends [5]</strong></td><td>Reverse which end the modified widths refer to.</td></tr>
- <tr><td><strong>Clasp [6]</strong></td><td>For I-bar single curve clasps entire clasp floats above gingiva/tooth. Use Clone to extend tip to undercut.</td></tr>
+ <tr><td><strong>Clasp [6]</strong></td><td>For I-bar single-curve clasps, the entire clasp floats above the gingiva or tooth. Use Clone to extend the tip to the undercut.</td></tr>
  <tr><td><strong>Use Defaults [7]</strong></td><td>Revert all settings to defaults.</td></tr>
  </tbody>
  </table></section>
  <div class="callout callout-tip">
- <span>Change the Clasp Type <strong>before</strong> selecting curves on the model. For approach arm clasps, draw the approach arm section first.</span>
+ <span>Change the Clasp Type <strong>before</strong>: selecting curves on the model. For approach arm clasps, draw the approach arm section first.</span>
  </div>
  </section>
 
@@ -901,22 +906,22 @@
  <section class="tool-section" id="smooth">
  <h2>Smooth <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">V</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>General-purpose smoothing and wax editing tool with two modes.</p>
- <h3>Edit Wax Smudge Mode</h3>
+ <h3>Edit Wax: Smudge Mode</h3>
  <ul>
- <li><strong>Smooth / Smudge toggle</strong> switch between smoothing and removing wax.</li>
- <li><strong>Edit Blockout</strong> switch to blockout editing.</li>
- <li><strong>Wax Only Mode</strong> recommended only for editing the bottom part of the wax. Additive smooth when in wax-only mode to quickly smooth the partial.</li>
- <li><strong>Tool Size</strong> brush diameter.</li>
- <li><strong>Wax Hardness</strong> controls material removal sensitivity.</li>
+ <li><strong>Smooth / Smudge toggle</strong>: switch between smoothing and removing wax.</li>
+ <li><strong>Edit Blockout</strong>: switch to blockout editing.</li>
+ <li><strong>Wax Only Mode</strong>: recommended only for editing the bottom part of the wax. Additive smooth when in wax-only mode to quickly smooth the partial.</li>
+ <li><strong>Tool Size</strong>: brush diameter.</li>
+ <li><strong>Wax Hardness</strong>: controls material removal sensitivity.</li>
  </ul>
- <h3>Edit Wax Smooth Mode</h3>
+ <h3>Edit Wax: Smooth Mode</h3>
  <ul>
- <li><strong>Tool Size</strong> brush diameter.</li>
- <li><strong>Smooth Level</strong> overall smoothing strength.</li>
- <li><strong>Flatten Material</strong> flatten surface within tool area.</li>
- <li><strong>Add Material</strong> add wax during smoothing.</li>
- <li><strong>Remove Material</strong> remove wax during smoothing.</li>
- <li><strong>Blend smoothly into Mask</strong> smoother transition at mask edges.</li>
+ <li><strong>Tool Size</strong>: brush diameter.</li>
+ <li><strong>Smooth Level</strong>: overall smoothing strength.</li>
+ <li><strong>Flatten Material</strong>: flatten surface within tool area.</li>
+ <li><strong>Add Material</strong>: add wax during smoothing.</li>
+ <li><strong>Remove Material</strong>: remove wax during smoothing.</li>
+ <li><strong>Blend smoothly into Mask</strong>: smoother transition at mask edges.</li>
  </ul>
  <div class="callout callout-tip">
  <span><kbd>Alt+1</kbd> toggles smooth/smudge. <kbd>Alt+2</kbd>/<kbd>3</kbd>/<kbd>4</kbd> changes flatten/add/remove modes.</span>
@@ -948,8 +953,8 @@
  <h2>Smudge <span class="badge badge-expert">Expert</span> <span class="badge badge-hotkey">B</span></h2><a class="back-to-finder" href="#tool-explorer">← Back to finder</a>
  <p>Smudge is accessed via the Smooth tool in Smudge mode. It removes (or adds) wax material interactively. Use left-click to remove, and keep the cursor in small circles or zig-zag motions for best results.</p>
  <ul>
- <li>Adjust <strong>Tool Size</strong> with <kbd>Q</kbd>/<kbd>W</kbd> or <kbd>Shift</kbd>+Scroll Wheel.</li>
- <li>Adjust <strong>Wax Hardness</strong> to control removal sensitivity.</li>
+ <li>Adjust <strong>Tool Size</strong>: with <kbd>Q</kbd>/<kbd>W</kbd> or <kbd>Shift</kbd>+Scroll Wheel.</li>
+ <li>Adjust <strong>Wax Hardness</strong>: to control removal sensitivity.</li>
  <li>Toggle between Smooth and Smudge with <kbd>Alt+1</kbd>.</li>
  </ul>
  </section>
@@ -1032,8 +1037,8 @@
  </table></section>
  <h3>Advanced Settings</h3>
  <ul>
- <li><strong>Direction</strong> Surface Normal, Average Surface Normal, or Path of Insertion.</li>
- <li><strong>Normal Smoothing</strong> slider to adjust smoothing.</li>
+ <li><strong>Direction</strong>: Surface Normal, Average Surface Normal, or Path of Insertion.</li>
+ <li><strong>Normal Smoothing</strong>: slider to adjust smoothing.</li>
  </ul>
  </section>
 
@@ -1043,8 +1048,8 @@
  <p>Place an image, logo, label, or text on the surface. Use it for markings or texture patterns, including circular text where your version’s text controls support it. Check the preview and placement before applying.</p>
  <h3>Modes</h3>
  <ul>
- <li><strong>Select Image</strong> choose an image file. Repeated in X/Y if the area is larger. Left-click to place.</li>
- <li><strong>Select Text</strong> enter text in the dialog. Left-click to place.</li>
+ <li><strong>Select Image</strong>: choose an image file. Repeated in X/Y if the area is larger. Left-click to place.</li>
+ <li><strong>Select Text</strong>: enter text in the dialog. Left-click to place.</li>
  </ul>
  <section class="table-wrap" tabindex="0" aria-label="Scrollable table: Emboss with Image/Text"><table class="param-table">
  <thead><tr><th>Parameter</th><th>Description</th></tr></thead>
@@ -1062,12 +1067,12 @@
  <h3>Text Settings</h3>
  <ul>
  <li>Enter multi-line text using <kbd>Enter</kbd>.</li>
- <li><strong>Set Font</strong> adjust font and style.</li>
- <li><strong>Save As</strong> save frequently used text as a .bmp image for reuse.</li>
- <li><strong>Update</strong> refresh the blue proposal.</li>
+ <li><strong>Set Font</strong>: adjust font and style.</li>
+ <li><strong>Save As</strong>: save frequently used text as a .bmp image for reuse.</li>
+ <li><strong>Update</strong>: refresh the blue proposal.</li>
  </ul>
  <div class="callout callout-tip">
- <span>Always check that text is legible, especially over stippled areas. Use the <strong>Mask</strong> tool to limit the embossed area.</span>
+ <span>Always check that text is legible, especially over stippled areas. Use the <strong>Mask</strong>: tool to limit the embossed area.</span>
  </div>
  </section>
 
@@ -1085,7 +1090,7 @@
  </tbody>
  </table></section>
  <div class="callout callout-warning">
- <span>When converting partial wax to blockout, <strong>ALL</strong> wax will be converted. Use <strong>Select Wax</strong> to selectively convert partial wax to blockout first.</span>
+ <span>When converting partial wax to blockout, <strong>ALL</strong>: wax will be converted. Use <strong>Select Wax</strong>: to selectively convert partial wax to blockout first.</span>
  </div>
  </section>
 
@@ -1139,7 +1144,7 @@
  <tr><td><strong>Preview Opacity</strong></td><td>Transparency of the post preview.</td></tr>
  </tbody>
  </table></section>
- <p>You can also import a custom post file via <strong>Use File</strong> and maintain its <strong>Actual Size</strong>.</p>
+ <p>You can also import a custom post file via <strong>Use File</strong>: and maintain its <strong>Actual Size</strong>.</p>
  </section>
 
  <!-- PIPE / SUPPORTS -->
@@ -1158,7 +1163,7 @@
  </tbody>
  </table></section>
  <div class="callout callout-info">
- <span><strong>Support bar placement:</strong> Lower partials one bar between posterior ends. Upper partials two bars: one posterior-to-posterior, one from the midpoint of the posterior bar to the most anterior point.</span>
+ <span><strong>Support bar placement:</strong>: Lower partials: one bar between posterior ends. Upper partials: two bars: one posterior-to-posterior, one from the midpoint of the posterior bar to the most anterior point.</span>
  </div>
  </section>
 
@@ -1175,9 +1180,9 @@
  </table></section>
  <h3>Colorize Thickness</h3>
  <ul>
- <li>Set <strong>Minimum</strong> and <strong>Maximum</strong> sliders.</li>
- <li>Click <strong>Apply</strong> too-thin areas appear blue, too-thick areas appear red.</li>
- <li><strong>Measure Blockout</strong> measure blockout-to-refractory thickness.</li>
+ <li>Set <strong>Minimum</strong>: and <strong>Maximum</strong>: sliders.</li>
+ <li>Click <strong>Apply</strong>: too-thin areas appear blue, too-thick areas appear red.</li>
+ <li><strong>Measure Blockout</strong>: measure blockout-to-refractory thickness.</li>
  </ul>
  </section>
 
@@ -1208,7 +1213,7 @@
  </tbody>
  </table></section>
  <div class="callout callout-tip">
- <span><strong>Cut View Hotkeys:</strong> Slider to change slice position. Left-drag for ruler (<kbd>Ctrl</kbd> for multiple). Right-drag to rotate cut plane. Right+Left to move cut plane. Scroll to zoom.</span>
+ <span><strong>Cut View Hotkeys:</strong>: Slider to change slice position. Left-drag for ruler (<kbd>Ctrl</kbd> for multiple). Right-drag to rotate cut plane. Right+Left to move cut plane. Scroll to zoom.</span>
  </div>
  </section>
 
@@ -1231,9 +1236,9 @@
  <article>
  <p class="save-guide-label">STL for output</p>
  <ol>
- <li>Finish <strong>Apply Build</strong> and wait for the final build to appear.</li>
+ <li>Finish <strong>Apply Build</strong>: and wait for the final build to appear.</li>
  <li>Right-click the finished build/mesh.</li>
- <li>Choose <strong>Save as STL file</strong> and select the destination.</li>
+ <li>Choose <strong>Save as STL file</strong>: and select the destination.</li>
  </ol>
  <p class="save-guide-note">An STL is the exported mesh, not the editable PartialCAD project.</p>
  </article>
@@ -1275,21 +1280,21 @@
  <h3>Relief Parameters</h3>
  <h4>Margin Width</h4>
  <ul>
- <li><strong>Connector</strong> relief value under the connector.</li>
+ <li><strong>Connector</strong>: relief value under the connector.</li>
  </ul>
  <h4>Static Relief (Constant Offset)</h4>
  <ul>
- <li><strong>Clasps</strong> relief under clasps.</li>
- <li><strong>Connector</strong> relief under connector.</li>
- <li><strong>Imported Parts</strong> relief under imported parts.</li>
- <li><strong>Other</strong> relief under other parts.</li>
+ <li><strong>Clasps</strong>: relief under clasps.</li>
+ <li><strong>Connector</strong>: relief under connector.</li>
+ <li><strong>Imported Parts</strong>: relief under imported parts.</li>
+ <li><strong>Other</strong>: relief under other parts.</li>
  </ul>
  <h4>Dynamic Relief (Auto-detected)</h4>
  <ul>
- <li><strong>Connector</strong> dynamic relief under connector.</li>
- <li><strong>Imported Parts</strong> dynamic relief under imported parts.</li>
- <li><strong>Other (except clasps)</strong> dynamic relief under other parts.</li>
- <li><strong>Save Relief with Scene</strong> persist relief to blockout on save.</li>
+ <li><strong>Connector</strong>: dynamic relief under connector.</li>
+ <li><strong>Imported Parts</strong>: dynamic relief under imported parts.</li>
+ <li><strong>Other (except clasps)</strong>: dynamic relief under other parts.</li>
+ <li><strong>Save Relief with Scene</strong>: persist relief to blockout on save.</li>
  </ul>
  <div class="callout callout-info">
  <span>When the build finishes, inspect the framework mesh over the transparent model, including its underside. The generated output is also placed in the project directory; use the right-click export steps above when you need a separate STL file.</span>
