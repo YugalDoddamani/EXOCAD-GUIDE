@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const aliases = [
     { terms: rescues[0].phrases, extra: ['select wax','cut selection','clone','shift','smudge'] },
     { terms: ['go back','previous step','back a step','undo step','how do i go back','undo','back'], extra: ['keyboard shortcuts','workflow overview'] },
-    { terms: ['where do i start','begin','beginner','first step','new','learn'], extra: ['workflow overview','trim scan','new to partialcad'] },
+    { terms: ['where do i start','start','begin','beginner','first step','new','learn'], extra: ['workflow overview','trim scan','new to partialcad'] },
     { terms: ['bumpy','bumps','lumpy','uneven','rough'], extra: ['smooth','smooth area','smudge'] },
     { terms: ['palate','palatal','roof of mouth'], extra: ['mesh connector','major connector'] },
     { terms: ['porosity','porous','holes','voids','pits'], extra: ['mesh','filler','paint filler'] },
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const queryExpansion = (query) => {
-    const normalized = normalizeText(query).replace(/\b(how|do|i|the|a|to|where|should|can|you|start|begin)\b/g, ' ').replace(/\s+/g, ' ').trim();
+    const normalized = normalizeText(query).replace(/\b(how|do|i|the|a|to|where|should|can|you)\b/g, ' ').replace(/\s+/g, ' ').trim();
     const extra = aliases.filter((entry) => entry.terms.some((phrase) => normalized.includes(phrase))).flatMap((entry) => entry.extra);
     return [...new Set(extra.map(normalizeText))];
   };
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const terms = query.split(' ').filter((term) => !['how','do','i','the','a','to','where','should','can','you'].includes(term));
     const allTermsMatch = terms.length > 0 && terms.every((term) => combined.includes(term));
     if (!phraseMatch && !allTermsMatch) return { score: 0, reason: '' };
-    if (/go back|previous step|back a step|undo step|how do i go back/.test(query) && /keyboard shortcuts|workflow overview/.test(fields.title+' '+fields.aliasesText)) {}
+    
     let score = 0;
     let reason = '';
     if (fields.title === query) { score += 140; reason = 'Exact tool name'; }
@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
       instantResults.hidden = !query;
       if (categoryShelf) categoryShelf.hidden = Boolean(query);
       if (query) {
-        if (!visible.length) {
+        if (!visible.length && !guideMatches.length) {
           const empty = document.createElement('p');
           empty.className = 'instant-empty';
           empty.textContent = 'No matches yet. Try “Smooth”, “blockout” or “remove wax”.';
