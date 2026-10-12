@@ -1276,3 +1276,12 @@ body{background:#fff9ef;color:#171717}.site-header{background:#fff9ef;color:#171
 @media(max-width:900px){.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}.folder-card{min-height:172px;padding:16px 13px 13px}}
 @media(max-width:600px){.category-shelf-heading{align-items:flex-start;flex-direction:column;gap:3px}.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:15px 11px}.folder-card{min-height:168px}.instant-result{padding:12px}}
 @media(prefers-reduced-motion:reduce){.folder-card{transition:none}.folder-card:hover,.folder-card:active{transform:none}}
+
+
+/* Footer credits use the same type scale for both names. */
+.footer-credit-group .footer-person,
+.footer-credit-group .footer-person a {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
