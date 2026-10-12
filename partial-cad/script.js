@@ -80,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const toolEmpty = document.querySelector('#tool-empty');
   const waxRescue = document.querySelector('#wax-removal-rescue');
   const clearToolSearch = document.querySelector('#clear-tool-search');
+  const instantResults = document.querySelector('#instant-search-results');
+  const categoryShelf = document.querySelector('.category-shelf');
+  const folderButtons = [...document.querySelectorAll('[data-folder-filter]')];
   let activeFilter = 'all';
   let collapsedBeforeSearch = null;
   let activeLinkFrame = null;
@@ -290,6 +293,42 @@ document.addEventListener('DOMContentLoaded', () => {
           ? 'Search by the problem you see, the tool name, a setting, or a shortcut.'
           : `Showing entries in ${filterButtons.find((button) => button.dataset.filter === activeFilter)?.textContent || 'this category'}.`;
     }
+    if (instantResults) {
+      instantResults.replaceChildren();
+      instantResults.hidden = !query;
+      if (categoryShelf) categoryShelf.hidden = Boolean(query);
+      if (query) {
+        if (!visible.length) {
+          const empty = document.createElement('p');
+          empty.className = 'instant-empty';
+          empty.textContent = 'No matches yet. Try “Smooth”, “blockout” or “remove wax”.';
+          instantResults.append(empty);
+        } else {
+          visible.slice(0, 8).forEach(({ card }) => {
+            const link = document.createElement('a');
+            link.className = 'instant-result';
+            link.href = card.getAttribute('href');
+            link.setAttribute('role', 'option');
+            const title = document.createElement('strong');
+            title.textContent = card.querySelector('b')?.textContent?.trim() || 'Open guide entry';
+            const description = document.createElement('span');
+            description.textContent = card.querySelector('p')?.textContent?.trim() || 'Open this guide entry.';
+            const arrow = document.createElement('span');
+            arrow.className = 'instant-result-arrow';
+            arrow.setAttribute('aria-hidden', 'true');
+            arrow.textContent = '↗';
+            link.append(title, description, arrow);
+            instantResults.append(link);
+          });
+          if (visible.length > 8) {
+            const more = document.createElement('p');
+            more.className = 'instant-more';
+            more.textContent = 'Showing 8 of ' + visible.length + ' matches. Scroll down for the full list.';
+            instantResults.append(more);
+          }
+        }
+      }
+    }
     if (toolEmpty) {
       toolEmpty.hidden = visible.length !== 0;
       const suggestion = toolEmpty.querySelector('p');
@@ -331,6 +370,21 @@ document.addEventListener('DOMContentLoaded', () => {
       chip.setAttribute('aria-pressed', String(selected));
     });
     filterToolCards();
+  }));
+
+  folderButtons.forEach((button) => button.addEventListener('click', () => {
+    if (mainToolSearch) runSharedSearch(mainToolSearch, '');
+    activeFilter = button.dataset.folderFilter;
+    filterButtons.forEach((chip) => {
+      const selected = chip.dataset.filter === activeFilter;
+      chip.classList.toggle('is-active', selected);
+      chip.setAttribute('aria-pressed', String(selected));
+    });
+    filterToolCards();
+    document.querySelector('#tool-explorer')?.scrollIntoView({
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      block: 'start',
+    });
   }));
 
   taskButtons.forEach((button) => button.addEventListener('click', () => {
