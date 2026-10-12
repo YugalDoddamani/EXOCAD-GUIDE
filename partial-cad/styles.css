@@ -1285,3 +1285,11 @@ body{background:#fff9ef;color:#171717}.site-header{background:#fff9ef;color:#171
   line-height: 1.5;
   font-weight: 600;
 }
+
+
+.footer-credit-group .footer-person,
+.footer-credit-group .footer-person a {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
